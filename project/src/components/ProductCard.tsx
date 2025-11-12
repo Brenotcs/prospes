@@ -13,18 +13,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
-
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-      {discount > 0 && (
-        <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold z-10">
-          -{discount}%
-        </div>
-      )}
-
       <div className="relative overflow-hidden h-64">
         <img
           src={product.image}

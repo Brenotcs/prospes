@@ -1,6 +1,15 @@
-import { ShoppingBag, Phone } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Phone } from 'lucide-react';
+import Logo from '../assets/logo.png';
+
+// Define a altura da área de hover (por exemplo, 4rem = 64px)
+const HEADER_HEIGHT_REM = 'h-16'; 
 
 export default function Header() {
+  // Novo estado para rastrear se o usuário rolou a página para baixo
+  const [scrolled, setScrolled] = useState(false);
+  const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+
   const whatsappNumber = "5511999999999";
   const whatsappMessage = "Olá! Gostaria de conhecer os produtos da Prospés.";
 
@@ -8,28 +17,157 @@ export default function Header() {
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    const header = document.querySelector('header');
+    const offset = header ? (header as HTMLElement).offsetHeight : 0;
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
+  // Lógica de Scroll e Active Section (atualizada para incluir a detecção de scroll)
+  const [activeSection, setActiveSection] = useState<string>('');
+
+  useEffect(() => {
+    const ids = ['produtos', 'beneficios', 'contato'];
+    const header = document.querySelector('header') as HTMLElement | null;
+    let ticking = false;
+
+    const updateActiveAndScrolled = () => {
+      // 1. Lógica de detecção de Scroll
+      setScrolled(window.scrollY > 100); // 👈 Considera rolado se for maior que 100px
+
+      // 2. Lógica de Active Section (mantida)
+      const offset = header ? header.offsetHeight : 0;
+      const position = window.scrollY + offset;
+      let current = '';
+      
+      // ... (Resto da lógica de detecção de seção ativa) ...
+      for (const id of ids) {
+          const el = document.getElementById(id);
+          if (!el) continue;
+          const top = el.offsetTop;
+          const bottom = top + el.offsetHeight;
+          if (position >= top && position < bottom) {
+              current = id;
+              break;
+          }
+      }
+
+      if (!current) {
+          const first = document.getElementById(ids[0]);
+          if (first && position < first.offsetTop) {
+              current = '';
+          } else {
+              const last = ids.slice().reverse().find(id => {
+                  const el = document.getElementById(id);
+                  return el && position >= el.offsetTop;
+              });
+              current = last ?? '';
+          }
+      }
+      setActiveSection(current);
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveAndScrolled();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    updateActiveAndScrolled();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []); // Dependências vazias
+
+  // -------------------------------------------------------------
+  // Estrutura principal do Header com lógica de visibilidade
+  // -------------------------------------------------------------
+
   return (
-    <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
-  <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <ShoppingBag className="w-8 h-8 text-teal-600" />
-          <h1 className="text-2xl font-bold text-gray-800">Prospés</h1>
-        </div>
+    // 👈 NOVO: Wrapper invisível que serve de área de detecção de mouse
+    // Quando o mouse entra, a classe 'group-hover:translate-y-0' e 'group-hover:opacity-100' farão o header aparecer.
+    <div className={`fixed top-0 left-0 right-0 z-50 transition-all ${HEADER_HEIGHT_REM} group`}>
+        
+        {/* O header real: aplica-se a transformação condicional */}
+        <header className={`
+          absolute top-0 left-0 right-0 
+          bg-white shadow-md w-full transition-all duration-300 ease-in-out
+          ${scrolled ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} 
+          group-hover:translate-y-0 group-hover:opacity-100 
+          ${scrolled ? 'shadow-lg' : 'shadow-md'}
+        `}>
+            
+            <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
+              
+              {/* Conteúdo do Header (Mantido) */}
+              <a href="#" className="flex items-center gap-2">
+                <img 
+                  src={Logo} 
+                  alt="Logo Prospés" 
+                  className="h-12"
+                />
+              </a>
 
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#produtos" className="text-gray-700 hover:text-teal-600 transition">Produtos</a>
-          <a href="#beneficios" className="text-gray-700 hover:text-teal-600 transition">Benefícios</a>
-          <a href="#depoimentos" className="text-gray-700 hover:text-teal-600 transition">Depoimentos</a>
-        </nav>
+              <nav className="hidden md:flex items-center gap-8 mx-auto"> 
+                {/* ... links de navegação com activeSection mantidos ... */}
+                <a 
+                  href="#produtos" 
+                  onClick={(e) => handleNavClick(e, 'produtos')}
+                  onMouseEnter={() => setHoveredLink('produtos')}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="text-gray-700 hover:text-teal-600 transition relative"
+                >
+                  Produtos
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
+                </a>
+                
+                <a 
+                  href="#beneficios" 
+                  onClick={(e) => handleNavClick(e, 'beneficios')}
+                  onMouseEnter={() => setHoveredLink('beneficios')}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="text-gray-700 hover:text-teal-600 transition relative"
+                >
+                  Benefícios
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
+                </a>
+                
+                <a 
+                  href="#contato" 
+                  onClick={(e) => handleNavClick(e, 'contato')}
+                  onMouseEnter={() => setHoveredLink('contato')}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="text-gray-700 hover:text-teal-600 transition relative"
+                >
+                  Contato
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'contato' || hoveredLink === 'contato' ? 'w-full' : 'w-0'}`} />
+                </a>
+              </nav>
 
-        <button
-          onClick={handleWhatsAppClick}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-full flex items-center gap-2 transition"
-        >
-          <Phone className="w-4 h-4" />
-          <span className="hidden sm:inline">Fale Conosco</span>
-        </button>
-      </div>
-    </header>
+              <button
+                onClick={handleWhatsAppClick}
+                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
+                aria-label="Fale conosco via WhatsApp"
+              >
+                <Phone className="w-4 h-4" />
+                <span className="hidden sm:inline">Fale Conosco</span>
+              </button>
+              
+            </div>
+        </header>
+    </div>
   );
 }
