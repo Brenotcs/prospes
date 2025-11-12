@@ -40,16 +40,6 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="pt-4 border-t border-gray-100">
-          <div className="flex items-baseline gap-2 mb-4">
-            {product.originalPrice && (
-              <span className="text-gray-400 line-through text-lg">
-                R$ {product.originalPrice.toFixed(2)}
-              </span>
-            )}
-            <span className="text-3xl font-bold text-teal-600">
-              R$ {product.price.toFixed(2)}
-            </span>
-          </div>
 
           <button
             onClick={handleBuyClick}
