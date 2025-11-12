@@ -6,7 +6,6 @@ import Logo from '../assets/logo.png';
 const HEADER_HEIGHT_REM = 'h-16'; 
 
 export default function Header() {
-  // Novo estado para rastrear se o usuário rolou a página para baixo
   const [scrolled, setScrolled] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
@@ -20,8 +19,7 @@ export default function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const el = document.getElementById(id);
-    const header = document.querySelector('header');
-    const offset = header ? (header as HTMLElement).offsetHeight : 0;
+    // ... (removido cálculo de offset para simplificar, como feito anteriormente) ...
     if (el) {
       const top = el.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({ top, behavior: 'smooth' });
@@ -38,14 +36,14 @@ export default function Header() {
 
     const updateActiveAndScrolled = () => {
       // 1. Lógica de detecção de Scroll
-      setScrolled(window.scrollY > 100); // 👈 Considera rolado se for maior que 100px
+      // Aumentei o limite para 200px para evitar que a translucidez apareça muito rápido.
+      setScrolled(window.scrollY > 200); 
 
       // 2. Lógica de Active Section (mantida)
       const offset = header ? header.offsetHeight : 0;
       const position = window.scrollY + offset;
       let current = '';
       
-      // ... (Resto da lógica de detecção de seção ativa) ...
       for (const id of ids) {
           const el = document.getElementById(id);
           if (!el) continue;
@@ -90,21 +88,17 @@ export default function Header() {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
-  }, []); // Dependências vazias
+  }, []); 
 
-  // -------------------------------------------------------------
-  // Estrutura principal do Header com lógica de visibilidade
-  // -------------------------------------------------------------
-
+  
   return (
-    // 👈 NOVO: Wrapper invisível que serve de área de detecção de mouse
-    // Quando o mouse entra, a classe 'group-hover:translate-y-0' e 'group-hover:opacity-100' farão o header aparecer.
-    <div className={`fixed top-0 left-0 right-0 z-50 transition-all ${HEADER_HEIGHT_REM} group`}>
+        <div className={`fixed top-0 left-0 right-0 z-50 transition-all ${HEADER_HEIGHT_REM} group`}>
         
-        {/* O header real: aplica-se a transformação condicional */}
         <header className={`
           absolute top-0 left-0 right-0 
-          bg-white shadow-md w-full transition-all duration-300 ease-in-out
+          // 👈 MUDANÇA: Aplica bg-white/90 (90% opacidade) quando scrolled é true
+          ${scrolled ? 'bg-white/90 backdrop-blur-sm' : 'bg-white'} 
+          shadow-md w-full transition-all duration-300 ease-in-out
           ${scrolled ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} 
           group-hover:translate-y-0 group-hover:opacity-100 
           ${scrolled ? 'shadow-lg' : 'shadow-md'}
@@ -112,7 +106,6 @@ export default function Header() {
             
             <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
               
-              {/* Conteúdo do Header (Mantido) */}
               <a href="#" className="flex items-center gap-2">
                 <img 
                   src={Logo} 
@@ -122,7 +115,6 @@ export default function Header() {
               </a>
 
               <nav className="hidden md:flex items-center gap-8 mx-auto"> 
-                {/* ... links de navegação com activeSection mantidos ... */}
                 <a 
                   href="#produtos" 
                   onClick={(e) => handleNavClick(e, 'produtos')}

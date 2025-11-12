@@ -48,7 +48,7 @@ export default function Hero() {
 
           <div className="relative p-4 md:p-0">
             {/* Fundo menor */}
-            <div className="absolute inset-0 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-3xl transform rotate-2"></div>
+            <div className="absolute inset-4 md:inset-10 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-3xl transform rotate-6"></div>
             <img
               // 👈 2. Usa a variável da imagem importada
               src={ImgHero}
