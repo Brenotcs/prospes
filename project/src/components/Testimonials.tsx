@@ -1,33 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Star, Quote } from 'lucide-react';
-import { supabase, Testimonial } from '../lib/supabase';
+import { testimonials } from '../data/testimonials';
 
 export default function Testimonials() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
-
-  const fetchTestimonials = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('testimonials')
-        .select('*')
-        .eq('approved', true)
-        .order('created_at', { ascending: false })
-        .limit(6);
-
-      if (error) throw error;
-      setTestimonials(data || []);
-    } catch (error) {
-      console.error('Error fetching testimonials:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -38,21 +12,6 @@ export default function Testimonials() {
       />
     ));
   };
-
-  if (loading) {
-    return (
-      <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-8 bg-gray-200 rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-gray-200 rounded w-96 mx-auto"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section id="feedback" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
@@ -66,13 +25,8 @@ export default function Testimonials() {
           </p>
         </div>
 
-        {testimonials.length === 0 ? (
-          <div className="text-center text-gray-600">
-            <p>Nenhum depoimento disponível no momento.</p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {testimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
                 className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -99,22 +53,6 @@ export default function Testimonials() {
                 </div>
               </div>
             ))}
-          </div>
-        )}
-
-        <div className="mt-12 text-center bg-white rounded-xl p-8 shadow-md max-w-2xl mx-auto">
-          <h3 className="text-xl font-semibold text-gray-900 mb-3">
-            Já experimentou nossos produtos?
-          </h3>
-          <p className="text-gray-600 mb-4">
-            Compartilhe sua experiência conosco! Seu feedback é muito importante.
-          </p>
-          <a
-            href="#contato"
-            className="inline-block bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-full font-semibold transition"
-          >
-            Enviar Feedback
-          </a>
         </div>
       </div>
     </section>

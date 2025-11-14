@@ -1,20 +1,27 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_SUPABASE_ANON_KEY;
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
+// Tipos para os testimonials
 export interface Testimonial {
   id: string;
   name: string;
-  rating: number;
   message: string;
+  rating: number;
   location?: string;
-  created_at: string;
   approved: boolean;
+  created_at: string;
 }
+
+// Configuração do Supabase
+// IMPORTANTE: Você precisa criar um arquivo .env na raiz do projeto com:
+// VITE_SUPABASE_URL=sua_url_do_supabase
+// VITE_SUPABASE_ANON_KEY=sua_chave_anonima_do_supabase
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+// Se as variáveis de ambiente não estiverem configuradas, cria um cliente mock
+// que não fará requisições reais (útil para desenvolvimento)
+export const supabase = supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : createClient('https://placeholder.supabase.co', 'placeholder-key');
+
