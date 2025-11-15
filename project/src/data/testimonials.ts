@@ -34,20 +34,6 @@ export const testimonials: Testimonial[] = [
     message: 'Atendimento excelente e produtos de primeira linha. O spray antifúngico resolveu meu problema rapidamente. Muito satisfeito!',
     rating: 5,
     location: 'Curitiba, PR'
-  },
-  {
-    id: '5',
-    name: 'Patrícia Lima',
-    message: 'Adorei o óleo revitalizante! Além de hidratar, tem um aroma delicioso. Uso todos os dias e meus pés estão sempre macios.',
-    rating: 5,
-    location: 'Porto Alegre, RS'
-  },
-  {
-    id: '6',
-    name: 'Roberto Alves',
-    message: 'Produtos profissionais com preço justo. A entrega foi rápida e tudo chegou bem embalado. Virei cliente fiel!',
-    rating: 5,
-    location: 'Brasília, DF'
   }
 ];
 
