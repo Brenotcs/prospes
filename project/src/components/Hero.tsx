@@ -13,7 +13,7 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Usando gap-8 e space-y-4 para compactação */}
         <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="space-y-4"> 
+          <div className="space-y-4 animate-fadeInUp"> 
             
             <div className="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-semibold">
               Produtos Profissionais de Podologia
@@ -46,7 +46,7 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="relative p-4 md:p-0">
+          <div className="relative p-4 md:p-0 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
             {/* Fundo menor */}
             <div className="absolute inset-4 md:inset-10 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-3xl transform rotate-6"></div>
             <img

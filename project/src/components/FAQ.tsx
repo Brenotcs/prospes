@@ -51,7 +51,7 @@ export default function FAQ() {
   return (
     <section id="faq" className="py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Perguntas Frequentes
           </h2>
@@ -64,7 +64,8 @@ export default function FAQ() {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="bg-gray-50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md"
+              className="bg-gray-50 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-md animate-fadeInUp"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
               <button
                 onClick={() => toggleFAQ(index)}

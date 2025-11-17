@@ -37,7 +37,7 @@ export default function Benefits() {
   return (
     <section id="beneficios" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
   <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Por que escolher a Prospés?
           </h2>
@@ -52,7 +52,8 @@ export default function Benefits() {
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="bg-teal-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                   <Icon className="w-8 h-8 text-teal-600" />

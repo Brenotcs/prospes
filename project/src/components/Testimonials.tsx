@@ -16,7 +16,7 @@ export default function Testimonials() {
   return (
     <section id="feedback" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             O que nossos clientes dizem
           </h2>
@@ -26,10 +26,11 @@ export default function Testimonials() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-          {testimonials.map((testimonial) => (
+          {testimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
-                className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="mb-4">
                   <Quote className="w-10 h-10 text-teal-200" />

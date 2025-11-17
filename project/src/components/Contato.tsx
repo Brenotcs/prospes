@@ -48,14 +48,14 @@ export default function Contato() {
   return (
     <section id="contato" className="py-20">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-10">
+        <div className="text-center mb-10 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Fale Conosco</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Entre em contato para dúvidas, suporte ou informações sobre nossos produtos.</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-6xl mx-auto">
           {/* Left: form card */}
-          <div className="bg-white rounded-2xl p-8 shadow-md h-full">
+          <div className="bg-white rounded-2xl p-8 shadow-md h-full animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
             <h3 className="text-xl font-semibold mb-4 text-center">Envie sua Mensagem</h3>
               <form onSubmit={handleSubmit} noValidate>
                 <div className="space-y-3 flex flex-col items-center">
@@ -109,7 +109,7 @@ export default function Contato() {
           </div>
 
           {/* Right: contact info (Mantido) */}
-          <div className="h-full flex flex-col justify-between gap-6">
+          <div className="h-full flex flex-col justify-between gap-6 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
             <div>
               <h3 className="text-2xl font-semibold mb-4">Informações de Contato</h3>
               <div className="space-y-4 text-gray-700">
