@@ -1,14 +1,20 @@
 import { ArrowRight, ChevronDown } from 'lucide-react';
 // 👈 1. Importa a imagem local
 import ImgHero from '../assets/imghero.png'; 
+import BannerCarousel from './BannerCarousel';
 
 export default function Hero() {
   const scrollToProducts = () => {
     document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const scrollToBanners = () => {
+    document.getElementById('banners')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    // Reaplicando ajustes de compactação: pt-24, min-h-[80vh], py-8, pb-24
+    <>
+    {/* Reaplicando ajustes de compactação: pt-24, min-h-[80vh], py-8, pb-24 */}
     <section className="relative pt-24 pb-24 bg-gradient-to-br from-teal-50 via-white to-cyan-50 min-h-[80vh] flex items-center">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Usando gap-8 e space-y-4 para compactação */}
@@ -63,13 +69,17 @@ export default function Hero() {
       {/* Seta para baixo */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <button
-          onClick={scrollToProducts}
+          onClick={scrollToBanners}
           className="animate-bounce bg-white/80 hover:bg-white text-teal-600 rounded-full p-3 shadow-lg transition-all hover:scale-110"
-          aria-label="Ir para produtos"
+          aria-label="Ir para banners"
         >
           <ChevronDown className="w-6 h-6" />
         </button>
       </div>
     </section>
+
+    {/* Sessão de banners/carrossel abaixo do hero */}
+    <BannerCarousel />
+    </>
   );
 }
