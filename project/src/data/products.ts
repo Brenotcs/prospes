@@ -5,55 +5,160 @@ export interface Product {
   image: string;
   benefits: string[];
   category: string;
+  details?: string;
+  highlights?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export const products: Product[] = [
   {
     id: 1,
-    name: "Creme Hidratante Profissional",
-    description: "Hidratação intensa para pés ressecados e rachados. Fórmula avançada com ureia 20%.",
-    image: "https://images.pexels.com/photos/6663564/pexels-photo-6663564.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Hidratação profunda", "Reduz rachaduras", "Absorção rápida"],
-    category: "hidratacao"
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
+    image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   },
   {
     id: 2,
-    name: "Kit Tratamento Completo",
-    description: "Conjunto profissional com tudo que você precisa para cuidar dos seus pés.",
-    image: "https://images.pexels.com/photos/3738382/pexels-photo-3738382.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Economia", "Completo", "Resultados visíveis"],
-    category: "kits"
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
+    image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   },
   {
     id: 3,
-    name: "Esfoliante para Calos",
-    description: "Remove calos e pele morta com eficácia. Contém ácidos naturais e vitamina E.",
-    image: "https://images.pexels.com/photos/6663583/pexels-photo-6663583.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Remove calos", "Suaviza a pele", "Natural"],
-    category: "tratamento"
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
+    image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   },
   {
     id: 4,
-    name: "Spray Antifúngico",
-    description: "Proteção e tratamento contra fungos e odores. Fórmula de ação rápida.",
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
     image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Elimina fungos", "Controla odores", "Ação rápida"],
-    category: "tratamento"
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   },
   {
     id: 5,
-    name: "Óleo Revitalizante",
-    description: "Nutrição profunda com óleos essenciais. Ideal para massagem e relaxamento.",
-    image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Nutrição intensa", "Relaxante", "Aroma terapêutico"],
-    category: "hidratacao"
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
+    image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   },
   {
     id: 6,
-    name: "Creme para Unhas",
-    description: "Fortalece e protege as unhas. Previne micoses e deixa as unhas saudáveis.",
-    image: "https://images.pexels.com/photos/5069432/pexels-photo-5069432.jpeg?auto=compress&cs=tinysrgb&w=800",
-    benefits: ["Fortalece unhas", "Previne micoses", "Crescimento saudável"],
-    category: "tratamento"
+    name: "Decreína Gotas/Spray",
+    description: "Proteção e regeneração de unhas danificadas por onicomicoses.",
+    image: "https://images.pexels.com/photos/7185040/pexels-photo-7185040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    benefits: ["Ação localizada", "Resultados rápidos e duradouros", "Sensação de limpeza e conforto"],
+    category: "tratamento",
+    details: "Produto cosmético de uso profissional, desenvolvido para o cuidado e a higienização das unhas acometidas por onicomicose ou que apresentem espessamento, descoloração, irregularidade ou fragilidade.",
+    highlights: [
+      "Ação localizada",
+      "Resultados Rápidos e Duradouros",
+      "Sensação de limpeza e conforto após o uso",
+      "Compatível com tratamentos de laser"
+    ],
+    faqs: [
+      {
+        question: "Qual é a indicação principal desse produto?",
+        answer: "Auxiliar no tratamento de unhas com micose (onicomicose) e frieira (tínea pedis entre os dedos)."
+      },
+      {
+        question: "É um medicamento?",
+        answer: "Não. O Decreína Gotas/Spray é um produto cosmético, que segue todas as recomendações e normas da ANVISA/MS."
+      }
+    ]
   }
 ];
