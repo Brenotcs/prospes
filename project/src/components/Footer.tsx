@@ -69,8 +69,8 @@ export default function Footer() {
               </li>
               <li>
                 <a 
-                  href="#feedbacks" 
-                  onClick={(e) => handleNavClick(e, 'feedbacks')} 
+                  href="#feedback" 
+                  onClick={(e) => handleNavClick(e, 'feedback')} 
                   className="hover:text-teal-500 transition"
                 >
                   Feedbacks
@@ -116,7 +116,7 @@ export default function Footer() {
                   aria-label="Instagram Decreina Oficial"
                 >
                   <Instagram className="w-5 h-5 flex-shrink-0" />
-                  <span>@decreina_oficial</span>
+                  <span>Instagram Decreína</span>
                 </a>
               </li>
 
@@ -130,7 +130,7 @@ export default function Footer() {
                   aria-label="Instagram Prospés Oficial"
                 >
                   <Instagram className="w-5 h-5 flex-shrink-0" />
-                  <span>@prospes_oficial</span>
+                  <span>Instagram Prospés</span>
                 </a>
               </li>
               
@@ -144,7 +144,7 @@ export default function Footer() {
                   aria-label="YouTube Decreína Oficial"
                 >
                   <Youtube className="w-5 h-5 flex-shrink-0" />
-                  <span>@decreina-oficial</span>
+                  <span>Youtube Decreína</span>
                 </a>
               </li>
               
