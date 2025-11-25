@@ -26,3 +26,32 @@ html {
 section[id] {
 	scroll-margin-top: 4rem; /* ~64px, ajustável se precisar */
 }
+
+/* Animação de abertura do modal (fade + scale) */
+@keyframes modalFadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes modalScaleIn {
+	from {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.modal-overlay-enter {
+	animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-content-enter {
+	animation: modalScaleIn 0.3s ease-out;
+}

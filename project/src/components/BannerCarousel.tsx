@@ -1,103 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
+import LogoDecreina from '../assets/logodecreina.png';
 
 export default function BannerCarousel() {
-  const banners = [
-    // Imagens públicas do Unsplash (tamanho grande, livre para uso)
-    'https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=0b3a0d9e7a4e2f8b6b1c1a9f4bb2d3f7',
-    'https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=1f1a2b3c4d5e6f7890abcd1234567890',
-    'https://images.unsplash.com/photo-1503602642458-232111445657?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcdef1234567890abcdef1234567890',
-  ];
+  const scrollToProducts = () => {
+    document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
-  const [index, setIndex] = useState(0);
-  const intervalRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    startAuto();
-    return () => stopAuto();
-    // iniciar apenas no mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function startAuto() {
-    stopAuto();
-    intervalRef.current = window.setInterval(() => {
-      setIndex((i) => (i + 1) % banners.length);
-    }, 4000);
-  }
-
-  function stopAuto() {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }
-
-  function goToNext() {
-    stopAuto();
-    setIndex((i) => (i + 1) % banners.length);
-    startAuto();
-  }
-
-  function goToPrev() {
-    stopAuto();
-    setIndex((i) => (i - 1 + banners.length) % banners.length);
-    startAuto();
-  }
+  const handleBuy = () => {
+    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
-    <section id="banners" className="w-full py-8 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div
-          className="relative overflow-hidden rounded-2xl shadow-lg"
-          onMouseEnter={stopAuto}
-          onMouseLeave={startAuto}
-        >
-          <div
-            className="flex transition-transform duration-700"
-            style={{ transform: `translateX(-${index * 100}%)` }}
-          >
-            {banners.map((src, i) => (
-              <div
-                key={i}
-                className="min-w-full flex-shrink-0 cursor-pointer"
-                onClick={goToNext}
-              >
-                <img
-                  src={src}
-                  alt={`Banner ${i + 1}`}
-                  className="w-full h-64 md:h-80 lg:h-96 object-cover"
-                />
-              </div>
-            ))}
+    <section id="banners" className="relative w-full py-12 bg-emerald-500 text-white overflow-hidden">
+      {/* Overlay de gradiente suave apenas na parte direita */}
+      <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-400/40 to-transparent pointer-events-none rounded-l-3xl z-0" />
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          {/* Logo em destaque */}
+          <div className="flex items-center justify-center">
+            <div className="bg-white rounded-3xl p-8 shadow-2xl flex items-center justify-center border-2 border-emerald-200">
+              <img src={LogoDecreina} alt="Logo Decreína" className="w-56 h-auto object-contain" />
+            </div>
           </div>
 
-          {/* Controls */}
-          <button
-            onClick={goToPrev}
-            className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md"
-            aria-label="Anterior"
-          >
-            ‹
-          </button>
+          {/* Texto e ações */}
+          <div className="space-y-4 text-white">
+            <div className="inline-block bg-white/10 text-white/90 px-3 py-1 rounded-full text-sm font-semibold">
+              Cosméticos Podológicos Profissionais
+            </div>
 
-          <button
-            onClick={goToNext}
-            className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow-md"
-            aria-label="Próximo"
-          >
-            ›
-          </button>
+            <div className="text-sm text-white/90 font-medium">Referência em qualidade e inovação, desde 2003</div>
 
-          {/* Indicators */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 bottom-3 flex gap-2">
-            {banners.map((_, i) => (
+            <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight">Decreína</h3>
+
+            <p className="text-base text-white/90 leading-relaxed max-w-xl">
+              Nossa linha profissional reúne produtos de alta performance para hidratação, renovação, reparação e proteção da pele e das unhas, oferecendo um ciclo de cuidado completo, com resultados visíveis, segurança e praticidade para o trabalho em cabine e no cuidado domiciliar.
+            </p>
+
+            <div className="flex gap-3 pt-3">
               <button
-                key={i}
-                onClick={() => { stopAuto(); setIndex(i); startAuto(); }}
-                className={`w-3 h-3 rounded-full ${i === index ? 'bg-teal-600' : 'bg-white/70'}`}
-                aria-label={`Ir para banner ${i + 1}`}
-              />
-            ))}
+                onClick={scrollToProducts}
+                className="bg-white text-emerald-700 font-semibold px-6 py-3 rounded-full shadow hover:scale-105 transition"
+              >
+                Ver produtos
+              </button>
+
+              <button
+                onClick={handleBuy}
+                className="bg-gradient-to-r from-orange-400 to-rose-500 text-white font-semibold px-6 py-3 rounded-full shadow hover:scale-105 transition"
+              >
+                Comprar
+              </button>
+            </div>
           </div>
         </div>
       </div>

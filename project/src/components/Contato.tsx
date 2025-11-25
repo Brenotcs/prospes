@@ -46,7 +46,7 @@ export default function Contato() {
   }
 
   return (
-    <section id="contato" className="py-20">
+    <section id="contato" className="py-20 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Fale Conosco</h2>

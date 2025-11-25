@@ -15,8 +15,7 @@ export default function Header() {
     if (e) e.preventDefault();
     const el = document.getElementById('contato');
     if (el) {
-      const top = el.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 
@@ -24,8 +23,7 @@ export default function Header() {
     e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
-      const top = el.getBoundingClientRect().top + window.pageYOffset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
 

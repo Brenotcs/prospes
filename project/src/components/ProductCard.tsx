@@ -1,6 +1,6 @@
 import { Check, PlusCircle, X } from 'lucide-react';
 import { Product } from '../data/products';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 interface ProductCardProps {
@@ -9,9 +9,25 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [open, setOpen] = useState(false);
+  const touchTimeoutRef = useRef<number | null>(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleTouchStart = () => {
+    // Abre o modal ao toque
+    handleOpen();
+    
+    // Limpa timeout anterior se houver
+    if (touchTimeoutRef.current) {
+      clearTimeout(touchTimeoutRef.current);
+    }
+
+    // Define um timeout para resetar o estado de touch após 500ms
+    touchTimeoutRef.current = window.setTimeout(() => {
+      // Reset se necessário
+    }, 500);
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group relative">
@@ -21,12 +37,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           alt={product.name}
           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        {/* Botão + centralizado e translúcido aparece ao passar o mouse */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity"></div>
+        {/* Botão + centralizado e translúcido: hover em desktop, touch em mobile */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity duration-200">
           <button
             aria-label={`Mais informações sobre ${product.name}`}
-            onClick={handleOpen}
+            onClick={handleTouchStart}
+            onTouchStart={handleTouchStart}
             className="bg-white/30 hover:bg-white/40 text-white p-4 rounded-full backdrop-blur-sm shadow-md transform transition-transform duration-200 hover:scale-105"
           >
             <PlusCircle className="w-8 h-8 text-white" />
@@ -51,9 +68,9 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Removido botão de compra via WhatsApp; modal abaixo (renderizado via portal para evitar clipping) */}
         {open && typeof document !== 'undefined' && createPortal(
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 z-50 flex items-center justify-center modal-overlay-enter">
             <div className="absolute inset-0 bg-black/50" onClick={handleClose} />
-            <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full mx-4 z-10 overflow-auto max-h-[90vh]">
+            <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full mx-4 z-10 overflow-auto max-h-[90vh] modal-content-enter">
               <div className="flex items-start justify-between p-6 border-b">
                 <h3 className="text-2xl font-bold">{product.name}</h3>
                 <button onClick={handleClose} aria-label="Fechar" className="text-gray-500 hover:text-gray-900">

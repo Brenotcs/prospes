@@ -1,15 +1,11 @@
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 // 👈 1. Importa a imagem local
-import ImgHero from '../assets/imghero.png'; 
+import ImgHero from '../assets/imghero.jpg'; 
 import BannerCarousel from './BannerCarousel';
 
 export default function Hero() {
-  const scrollToProducts = () => {
-    document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   const scrollToBanners = () => {
-    document.getElementById('banners')?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('banners')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -22,39 +18,25 @@ export default function Hero() {
           <div className="space-y-4 animate-fadeInUp"> 
             
             <div className="inline-block bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm font-semibold">
-              Produtos Profissionais de Podologia
+              Cosméticos Podológicos Profissionais
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-              Cuide dos seus pés com produtos
-              <span className="text-teal-600"> profissionais</span>
+              Seus atendimentos mais seguros e 
+              <span className="text-teal-600"> eficazes</span>
             </h2>
 
             <p className="text-lg text-gray-600 leading-relaxed">
-              Descubra nossa linha completa de produtos desenvolvidos especialmente para o cuidado e saúde dos seus pés. Qualidade profissional ao seu alcance.
+              Descubra a linha completa de produtos desenvolvidos especialmente para o cuidado com a saúde das unhas, dos pés e das mãos. Formulação exclusiva, com qualidade e segurança.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-3">
-              <button
-                onClick={scrollToProducts}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full text-md font-semibold flex items-center justify-center gap-2 transition transform hover:scale-105"
-              >
-                Ver Produtos
-                <ArrowRight className="w-5 h-5" />
-              </button>
-
-              <a
-                href="#beneficios"
-                className="border-2 border-gray-300 hover:border-teal-600 text-gray-700 hover:text-teal-600 px-6 py-3 rounded-full text-md font-semibold flex items-center justify-center gap-2 transition"
-              >
-                Saiba Mais
-              </a>
-            </div>
+            {/* Botões removidos conforme solicitado (Ver Produtos / Saiba Mais)
+                A navegação para produtos fica no banner/decreína abaixo */}
           </div>
 
           <div className="relative p-4 md:p-0 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-            {/* Fundo menor */}
-            <div className="absolute inset-4 md:inset-10 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-3xl transform rotate-6"></div>
+            {/* Fundo menor (lilás) */}
+            <div className="absolute inset-4 md:inset-10 bg-gradient-to-br from-violet-200 via-purple-200 to-violet-300 rounded-3xl transform rotate-6"></div>
             <img
               // 👈 2. Usa a variável da imagem importada
               src={ImgHero}

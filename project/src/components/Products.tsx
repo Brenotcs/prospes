@@ -5,7 +5,7 @@ import LogoDecreina from '../assets/logodecreina.png';
 
 export default function Products() {
   return (
-    <section id="produtos" className="py-20 bg-white">
+    <section id="produtos" className="py-20 bg-white scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           
