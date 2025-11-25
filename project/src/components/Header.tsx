@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from 'react';
+import React, { useEffect, useState, type MouseEvent } from 'react';
 import { Phone } from 'lucide-react';
 import Logo from '../assets/logo.png';
 
@@ -9,17 +9,20 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
 
-  const whatsappNumber = "5511999999999";
-  const whatsappMessage = "Olá! Gostaria de conhecer os produtos da Prospés.";
+  
 
-  const handleWhatsAppClick = () => {
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+  const handleContactClick = (e?: MouseEvent<HTMLButtonElement>) => {
+    if (e) e.preventDefault();
+    const el = document.getElementById('contato');
+    if (el) {
+      const top = el.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
   };
 
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const el = document.getElementById(id);
-    // ... (removido cálculo de offset para simplificar, como feito anteriormente) ...
     if (el) {
       const top = el.getBoundingClientRect().top + window.pageYOffset;
       window.scrollTo({ top, behavior: 'smooth' });
@@ -30,13 +33,13 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
-    const ids = ['produtos', 'beneficios', 'contato'];
+    // IDs das seções usadas para detectar a seção ativa
+    const ids = ['produtos', 'beneficios', 'feedback', 'contato']; 
     const header = document.querySelector('header') as HTMLElement | null;
     let ticking = false;
 
     const updateActiveAndScrolled = () => {
       // 1. Lógica de detecção de Scroll
-      // Aumentei o limite para 200px para evitar que a translucidez apareça muito rápido.
       setScrolled(window.scrollY > 200); 
 
       // 2. Lógica de Active Section (mantida)
@@ -96,7 +99,6 @@ export default function Header() {
         
         <header className={`
           absolute top-0 left-0 right-0 
-          // 👈 MUDANÇA: Aplica bg-white/90 (90% opacidade) quando scrolled é true
           ${scrolled ? 'bg-white/90 backdrop-blur-sm' : 'bg-white'} 
           shadow-md w-full transition-all duration-300 ease-in-out
           ${scrolled ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} 
@@ -115,6 +117,7 @@ export default function Header() {
               </a>
 
               <nav className="hidden md:flex items-center gap-8 mx-auto"> 
+                {/* PRODUTOS */}
                 <a 
                   href="#produtos" 
                   onClick={(e) => handleNavClick(e, 'produtos')}
@@ -126,6 +129,7 @@ export default function Header() {
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
+                {/* BENEFÍCIOS */}
                 <a 
                   href="#beneficios" 
                   onClick={(e) => handleNavClick(e, 'beneficios')}
@@ -137,22 +141,23 @@ export default function Header() {
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
+                {/* 👈 MUDANÇA 2 & 3: Contato para Feedbacks */}
                 <a 
-                  href="#contato" 
-                  onClick={(e) => handleNavClick(e, 'contato')}
-                  onMouseEnter={() => setHoveredLink('contato')}
+                  href="#feedback" 
+                  onClick={(e) => handleNavClick(e, 'feedback')}
+                  onMouseEnter={() => setHoveredLink('feedback')}
                   onMouseLeave={() => setHoveredLink(null)}
                   className="text-gray-700 hover:text-teal-600 transition relative"
                 >
-                  Contato
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'contato' || hoveredLink === 'contato' ? 'w-full' : 'w-0'}`} />
+                  Feedbacks
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'feedback' || hoveredLink === 'feedback' ? 'w-full' : 'w-0'}`} />
                 </a>
               </nav>
 
               <button
-                onClick={handleWhatsAppClick}
+                onClick={handleContactClick}
                 className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
-                aria-label="Fale conosco via WhatsApp"
+                aria-label="Ir para a seção de contato"
               >
                 <Phone className="w-4 h-4" />
                 <span className="hidden sm:inline">Fale Conosco</span>

@@ -25,7 +25,7 @@ export default function Products() {
           </div>
           
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Seleção premium de produtos profissionais para cuidados podológicos
+            Curadoria especializada de cosméticos podológicos profissionais
           </p>
         </div>
 

@@ -1,5 +1,5 @@
 import type React from 'react';
-import { Mail, Phone, MapPin, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Youtube } from 'lucide-react';
 import LogoFooter from '../assets/logofooter.png'; 
 
 export default function Footer() {
@@ -19,11 +19,11 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
-          <div className="space-y-4">
+          <div className="space-y-6">
             
-            {/* 👈 ENVOLVEMOS A IMAGEM COM UM LINK */}
+            {/* Logo */}
             <div className="flex items-center gap-2 mx-auto md:mx-0">
-              <a href="#" className="flex items-center"> {/* 👈 Link para o topo */}
+              <a href="#" className="flex items-center">
                 <img
                   src={LogoFooter}
                   alt="Logo Prospés"
@@ -32,8 +32,8 @@ export default function Footer() {
               </a>
             </div>
             
-            <p className="text-sm leading-relaxed">
-              Produtos profissionais de podologia para cuidar da saúde e beleza dos seus pés.
+            <p className="text-base leading-relaxed">
+              Canal de vendas oficial da Decreína para profissionais, revendedoras e distribuidores. <br></br>Trabalhamos com cosméticos podológicos que garantem um atendimento seguro, eficaz e sem complicações. Saúde integral para unhas, pés e mãos!
             </p>
           </div>
 
@@ -67,6 +67,15 @@ export default function Footer() {
                   Contato
                 </a>
               </li>
+              <li>
+                <a 
+                  href="#feedbacks" 
+                  onClick={(e) => handleNavClick(e, 'feedbacks')} 
+                  className="hover:text-teal-500 transition"
+                >
+                  Feedbacks
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -75,29 +84,71 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-teal-500" />
-                <span>(71) 99999-9999</span>
+                <span>(71) 99418-0078</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-teal-500" />
-                <span>contato@prospes.com.br</span>
+                <span>contato@prospes.online</span>
               </li>
               <li className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-teal-500" />
                 <span>Salvador, BA</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-teal-500" />
+                <span>Osasco, SP</span>
               </li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold mb-4">Redes Sociais</h4>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 hover:bg-teal-600 rounded-full flex items-center justify-center transition">
-                <Facebook className="w-5 h-5" />
-              </a>
-            </div>
+            
+            <ul className="space-y-3">
+              
+              {/* Perfil @decreina_oficial (Instagram) */}
+              <li className="text-sm">
+                <a 
+                  href="https://www.instagram.com/decreina_oficial" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-gray-300 hover:text-teal-500 transition"
+                  aria-label="Instagram Decreina Oficial"
+                >
+                  <Instagram className="w-5 h-5 flex-shrink-0" />
+                  <span>@decreina_oficial</span>
+                </a>
+              </li>
+
+              {/* Perfil @prospes_oficial (Instagram) */}
+              <li className="text-sm">
+                <a 
+                  href="https://www.instagram.com/prospes_oficial" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-gray-300 hover:text-teal-500 transition"
+                  aria-label="Instagram Prospés Oficial"
+                >
+                  <Instagram className="w-5 h-5 flex-shrink-0" />
+                  <span>@prospes_oficial</span>
+                </a>
+              </li>
+              
+              {/* Link para YouTube */}
+              <li className="text-sm">
+                <a 
+                  href="https://www.youtube.com/@DECREINA-OFICIAL" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-gray-300 hover:text-teal-500 transition"
+                  aria-label="YouTube Decreína Oficial"
+                >
+                  <Youtube className="w-5 h-5 flex-shrink-0" />
+                  <span>@decreina-oficial</span>
+                </a>
+              </li>
+              
+            </ul>
           </div>
         </div>
 
