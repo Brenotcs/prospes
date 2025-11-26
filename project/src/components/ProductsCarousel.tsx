@@ -7,8 +7,17 @@ import LogoDecreina from '../assets/logodecreina.png';
 export default function ProductsCarousel() {
   const [isMobile, setIsMobile] = useState(false);
   const [desktopIndex, setDesktopIndex] = useState(0);
-  const [mobileIndexes, setMobileIndexes] = useState([0, 0, 0]); // Um índice para cada carrossel mobile
+  const [mobileIndex, setMobileIndex] = useState(0);
 
+  // Configurações do Desktop:
+  const desktopWindowSize = 3; // Quantos produtos VISÍVEIS de uma vez (3 cards)
+  // O índice máximo que podemos ter antes de atingir o final da lista (onde cabem 3 produtos)
+  const desktopMaxIndex = products.length - desktopWindowSize;
+  
+  // Configurações do Mobile:
+  const mobileWindowSize = 1; // Quantos produtos VISÍVEIS de uma vez (1 card)
+  const mobileMaxIndex = products.length - mobileWindowSize;
+  
   // Detecta se é mobile
   useEffect(() => {
     const handleResize = () => {
@@ -20,145 +29,72 @@ export default function ProductsCarousel() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Desktop: 3 produtos por página
-  const desktopItemsPerView = 3;
-  const desktopPagesCount = Math.ceil(products.length / desktopItemsPerView);
-  const desktopVisibleProducts = products.slice(
-    desktopIndex * desktopItemsPerView,
-    (desktopIndex + 1) * desktopItemsPerView
-  );
-
-  // Mobile: 3 carrosseis com 5 produtos cada
-  const mobileCarousels = [
-    products.slice(0, 5),
-    products.slice(5, 10),
-    products.slice(10, 15)
-  ];
-
+  // Navegação Desktop (avanço de 1 em 1)
   const handleDesktopPrev = () => {
-    setDesktopIndex((i) => (i - 1 + desktopPagesCount) % desktopPagesCount);
+    setDesktopIndex((i) => (i - 1 < 0) ? desktopMaxIndex : i - 1);
   };
 
   const handleDesktopNext = () => {
-    setDesktopIndex((i) => (i + 1) % desktopPagesCount);
+    setDesktopIndex((i) => (i + 1 > desktopMaxIndex) ? 0 : i + 1);
   };
 
-  const handleMobilePrev = (carouselIdx: number) => {
-    setMobileIndexes((prev) => {
-      const newIndexes = [...prev];
-      const carouselLength = mobileCarousels[carouselIdx].length;
-      newIndexes[carouselIdx] = (newIndexes[carouselIdx] - 1 + carouselLength) % carouselLength;
-      return newIndexes;
-    });
+  // Navegação Mobile (avanço de 1 em 1, igual ao desktop)
+  const handleMobilePrev = () => {
+    setMobileIndex((i) => (i - 1 < 0) ? mobileMaxIndex : i - 1);
   };
 
-  const handleMobileNext = (carouselIdx: number) => {
-    setMobileIndexes((prev) => {
-      const newIndexes = [...prev];
-      const carouselLength = mobileCarousels[carouselIdx].length;
-      newIndexes[carouselIdx] = (newIndexes[carouselIdx] + 1) % carouselLength;
-      return newIndexes;
-    });
+  const handleMobileNext = () => {
+    setMobileIndex((i) => (i + 1 > mobileMaxIndex) ? 0 : i + 1);
   };
 
-  const renderCarousel = (
-    carouselProducts: typeof products,
-    index: number,
-    onPrev: () => void,
-    onNext: () => void,
-    currentPage: number,
-    showSingle: boolean = false
-  ) => {
-    const displayProducts = showSingle ? [carouselProducts[currentPage]] : carouselProducts;
-
-    return (
-      <div className="relative mb-8">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {displayProducts.map((product, idx) => (
-            <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${idx * 0.1}s` }}>
-              <ProductCard product={product} />
-            </div>
-          ))}
-        </div>
-
-        {/* Botões de navegação */}
-        <button
-          onClick={onPrev}
-          className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-          aria-label="Produto anterior"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-
-        <button
-          onClick={onNext}
-          className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-          aria-label="Próximo produto"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
-
-        {/* Indicadores */}
-        <div className="flex justify-center gap-2 mt-6">
-          {Array.from({ length: carouselProducts.length }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                if (isMobile) {
-                  setMobileIndexes((prev) => {
-                    const newIndexes = [...prev];
-                    newIndexes[index] = i;
-                    return newIndexes;
-                  });
-                } else {
-                  setDesktopIndex(i);
-                }
-              }}
-              className={`w-3 h-3 rounded-full transition-all ${
-                i === currentPage ? 'bg-emerald-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-              aria-label={`Ir para produto ${i + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   return (
     <section id="produtos" className="py-20 bg-white scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-            Produtos
-          </h2>
-
-          <img
-            src={LogoDecreina}
-            alt="Logo Decreína"
-            className="mt-1 h-16 md:h-20 lg:h-32 w-auto object-contain mx-auto"
-          />
+          <div className="flex flex-col justify-center items-center mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+              Produtos
+            </h2>
+            <img
+              src={LogoDecreina}
+              alt="Logo Decreína"
+              className="mt-1 h-16 md:h-20 lg:h-32 w-auto object-contain"
+            />
+          </div>
           
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-4">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Curadoria especializada de cosméticos podológicos profissionais
           </p>
         </div>
 
-        {/* Desktop: Um carrossel */}
+        {/* BLOCO DESKTOP CORRIGIDO PARA DESLIZAMENTO DE 1 EM 1 */}
         {!isMobile && (
-          <div className="relative mb-8">
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {desktopVisibleProducts.map((product, idx) => (
-                <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${idx * 0.1}s` }}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
+          <div className="relative mb-8"> 
+            
+            <div className="relative overflow-hidden"> 
+              {/* Contêiner de deslizamento: flex com transição e translação */}
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${desktopIndex * (100 / desktopWindowSize)}%)` }}
+              >
+                {products.map((product, idx) => (
+                  <div 
+                    key={product.id} 
+                    // Dimenões calculadas para que 3 caibam e o resto empurre
+                    className="flex-shrink-0 w-full lg:w-1/3 px-4" 
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
             </div>
+            {/* FIM DO CONTÊINER DE DESLIZAMENTO */}
 
-            {/* Botões de navegação */}
+            {/* Botões de navegação (Desktop) - Fora da área dos cards */}
             <button
               onClick={handleDesktopPrev}
-              className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              className="absolute -left-12 top-1/2 -translate-y-1/2 bg-emerald-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
               aria-label="Produto anterior"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -166,43 +102,81 @@ export default function ProductsCarousel() {
 
             <button
               onClick={handleDesktopNext}
-              className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              className="absolute -right-12 top-1/2 -translate-y-1/2 bg-emerald-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
               aria-label="Próximo produto"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
-            {/* Indicadores */}
+            {/* Indicadores (mantidos) */}
             <div className="flex justify-center gap-2 mt-6">
-              {Array.from({ length: desktopPagesCount }).map((_, i) => (
+              {Array.from({ length: desktopMaxIndex + 1 }).map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setDesktopIndex(i)}
                   className={`w-3 h-3 rounded-full transition-all ${
                     i === desktopIndex ? 'bg-emerald-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
                   }`}
-                  aria-label={`Ir para página ${i + 1}`}
+                  aria-label={`Ir para produto ${i + 1}`}
                 />
               ))}
             </div>
           </div>
         )}
 
-        {/* Mobile: 3 carrosseis */}
+        {/* BLOCO MOBILE - Funciona igual ao desktop, mas mostra 1 produto por vez */}
         {isMobile && (
-          <div>
-            {mobileCarousels.map((carousel, idx) => (
-              <div key={idx}>
-                {renderCarousel(
-                  carousel,
-                  idx,
-                  () => handleMobilePrev(idx),
-                  () => handleMobileNext(idx),
-                  mobileIndexes[idx],
-                  true
-                )}
+          <div className="relative mb-8"> 
+            
+            <div className="relative overflow-hidden"> 
+              {/* Contêiner de deslizamento: flex com transição e translação */}
+              <div 
+                className="flex transition-transform duration-500 ease-in-out"
+                style={{ transform: `translateX(-${mobileIndex * (100 / mobileWindowSize)}%)` }}
+              >
+                {products.map((product, idx) => (
+                  <div 
+                    key={product.id} 
+                    // Dimenões calculadas para que 1 caiba e o resto empurre
+                    className="flex-shrink-0 w-full px-4" 
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            {/* FIM DO CONTÊINER DE DESLIZAMENTO */}
+
+            {/* Botões de navegação (Mobile) - Translucidez e posição ajustada */}
+            <button
+              onClick={handleMobilePrev}
+              className="absolute -left-2 top-1/3 -translate-y-1/2 bg-emerald-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              aria-label="Produto anterior"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            <button
+              onClick={handleMobileNext}
+              className="absolute -right-2 top-1/3 -translate-y-1/2 bg-emerald-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              aria-label="Próximo produto"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Indicadores (mantidos) */}
+            <div className="flex justify-center gap-2 mt-6">
+              {Array.from({ length: mobileMaxIndex + 1 }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setMobileIndex(i)}
+                  className={`w-3 h-3 rounded-full transition-all ${
+                    i === mobileIndex ? 'bg-emerald-600 w-8' : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Ir para produto ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>

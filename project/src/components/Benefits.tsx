@@ -1,65 +1,69 @@
-import { Sparkles, Shield, Award, Heart, Clock, Users } from 'lucide-react';
+import { FlaskConical, ShieldCheck, Zap, Leaf, Star, ThumbsUp } from 'lucide-react'; // 👈 Ícones atualizados
 
+// Lista de benefícios com os novos ícones
 const benefits = [
   {
-    icon: Sparkles,
+    icon: FlaskConical, // Era Sparkles
     title: "Fórmulas Avançadas",
-    description: "Produtos desenvolvidos com tecnologia de ponta para resultados eficazes e duradouros."
+    description: "Produtos desenvolvidos no Laboratório de Cosmetologia Aplicada (LCA), a partir de tecnologias de ponta e do compromisso em garantir resultados eficazes, seguros e duradouros."
   },
   {
-    icon: Shield,
+    icon: ShieldCheck, // Era Shield
     title: "Testado Dermatologicamente",
     description: "Todos os produtos são testados e aprovados por profissionais da saúde."
   },
   {
-    icon: Award,
-    title: "Qualidade Premium",
-    description: "Ingredientes de alta qualidade importados e nacionais cuidadosamente selecionados."
-  },
-  {
-    icon: Heart,
-    title: "Cuidado Profissional",
-    description: "Desenvolvido por podólogos para proporcionar o melhor cuidado aos seus pés."
-  },
-  {
-    icon: Clock,
+    icon: Zap, // Era Award
     title: "Resultados Rápidos",
-    description: "Veja mudanças significativas nas primeiras semanas de uso regular."
+    description: "Resultados visíveis já nas primeiras aplicações. O uso contínuo intensifica os efeitos e garante o bem-estar duradouro."
   },
   {
-    icon: Users,
-    title: "Confiança Comprovada",
-    description: "Milhares de clientes satisfeitos em todo o Brasil confiam em nossos produtos."
+    icon: Leaf, // Era Heart
+    title: "Vegano",
+    description: "Todos os produtos são veganos, sem ingredientes de origem animal. Inclusive, utilizamos o Lanogreen (lanolina vegetal) para assegurar uma hidratação intensa e sustentável."
+  },
+  {
+    icon: Star, // Era Clock
+    title: "Qualidade Premium",
+    description: "Ingredientes de alta qualidade, importados e nacionais, cuidadosamente selecionados."
+  },
+  {
+    icon: ThumbsUp, // Era Users
+    title: "Confiança na praça",
+    description: "Milhares de clientes satisfeitos em todo Brasil confiam em nossos produtos."
   }
 ];
 
 export default function Benefits() {
   return (
+    // Fundo Gradiente: Mantido from-gray-50 to-teal-50
     <section id="beneficios" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
-  <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Por que escolher a Prospés?
+            Por que escolher a Decreína?
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Compromisso com qualidade, eficácia e satisfação dos nossos clientes
+          Compromisso com a qualidade, segurança e inovação em cada fórmula
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {benefits.map((benefit, index) => {
-            const Icon = benefit.icon;
+            const Icon = benefit.icon; 
             return (
               <div
                 key={index}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
+                {/* Cores do Ícone: MANTIDO bg-teal-100 e text-teal-600 */}
                 <div className="bg-teal-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
-                  <Icon className="w-8 h-8 text-teal-600" />
+                  <Icon className="w-8 h-8 text-teal-600" /> {/* 👈 ÍCONE ATUALIZADO */}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
+                {/* Justificação do Texto */}
+                <p className="text-gray-600 leading-relaxed **text-justify**">{benefit.description}</p> {/* 👈 TEXTO JUSTIFICADO */}
               </div>
             );
           })}

@@ -1,7 +1,11 @@
 import { Check, PlusCircle, X } from 'lucide-react';
-import { Product } from '../data/products';
+// Importamos a interface Product do arquivo de dados.
+import { Product } from '../data/products'; 
 import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
+
+// A interface ProductCardProps permanece a mesma, mas a interface Product (no seu products.ts)
+// precisa ser atualizada para incluir 'details2?: string;'.
 
 interface ProductCardProps {
   product: Product;
@@ -15,30 +19,29 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleClose = () => setOpen(false);
 
   const handleTouchStart = () => {
-    // Abre o modal ao toque
     handleOpen();
     
-    // Limpa timeout anterior se houver
     if (touchTimeoutRef.current) {
       clearTimeout(touchTimeoutRef.current);
     }
 
-    // Define um timeout para resetar o estado de touch após 500ms
     touchTimeoutRef.current = window.setTimeout(() => {
       // Reset se necessário
     }, 500);
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group relative">
-      <div className="relative overflow-hidden h-64">
+    <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group relative flex flex-col h-full">
+      
+      {/* Bloco da Imagem: Altura Fixa (h-64) e flex-shrink-0 */}
+      <div className="relative overflow-hidden h-64 flex-shrink-0">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity"></div>
-        {/* Botão + centralizado e translúcido: hover em desktop, touch em mobile */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity duration-200">
           <button
             aria-label={`Mais informações sobre ${product.name}`}
@@ -51,10 +54,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
-      <div className="p-6 space-y-4">
+      {/* Bloco de Conteúdo: flex-grow para expandir e min-h fixo */}
+      <div className="p-6 space-y-4 flex-grow min-h-[200px]"> 
         <div>
+          {/* Título */}
           <h3 className="text-xl font-bold text-gray-900 mb-2">{product.name}</h3>
-          <p className="text-gray-600 text-sm leading-relaxed">{product.description}</p>
+          {/* Descrição: Altura mínima para estabilizar o layout */}
+          <p className="text-gray-600 text-sm leading-relaxed min-h-[40px]">{product.description}</p>
         </div>
 
         <div className="space-y-2">
@@ -65,9 +71,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Removido botão de compra via WhatsApp; modal abaixo (renderizado via portal para evitar clipping) */}
-        {open && typeof document !== 'undefined' && createPortal(
+      {/* Modal (renderizado via portal) */}
+      {open && typeof document !== 'undefined' && createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center modal-overlay-enter">
             <div className="absolute inset-0 bg-black/50" onClick={handleClose} />
             <div className="bg-white rounded-2xl shadow-xl max-w-3xl w-full mx-4 z-10 overflow-auto max-h-[90vh] modal-content-enter">
@@ -80,12 +87,29 @@ export default function ProductCard({ product }: ProductCardProps) {
               <div className="p-6 space-y-4">
                 {product.details && <p className="text-gray-700">{product.details}</p>}
 
+                {/* Renderiza a lista se product.list existir */}
+                {product.list && product.list.length > 0 && (
+                  <div className="mb-4">
+                    <ul className="list-disc list-inside space-y-1 text-gray-700">
+                      {product.list.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+                
+                {/* 👈 NOVO BLOCO: Renderiza details2 logo após a lista */}
+                {product.details2 && (
+                    <p className="text-gray-700">{product.details2}</p>
+                )}
+
+
                 {product.highlights && product.highlights.length > 0 && (
                   <div>
                     <h4 className="font-semibold mb-2">Destaques</h4>
                     <ul className="list-disc list-inside space-y-1 text-gray-700">
                       {product.highlights.map((h, i) => (
-                        <li key={i}>{h}</li>
+                        <li key={i}>{h}</li> 
                       ))}
                     </ul>
                   </div>
@@ -109,7 +133,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>,
           document.body
         )}
-      </div>
     </div>
   );
 }
