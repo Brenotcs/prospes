@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { sendLeadViaWebhook } from '../services/reev';
 
 type FormState = {
   nome: string;
@@ -6,6 +7,7 @@ type FormState = {
   empresa: string;
   email: string;
   whatsapp: string;
+  cidade: string;
   uf: string;
   perfilProfissional: string;
   perfilOutros: string;
@@ -36,6 +38,7 @@ export default function Contato() {
     empresa: '',
     email: '',
     whatsapp: '',
+    cidade: '',
     uf: '',
     perfilProfissional: '',
     perfilOutros: '',
@@ -57,6 +60,7 @@ export default function Contato() {
     if (!form.email.trim()) nextErrors.email = 'Email é obrigatório.';
     else if (!validateEmail(form.email)) nextErrors.email = 'Email inválido.';
     if (!form.whatsapp.trim()) nextErrors.whatsapp = 'WhatsApp é obrigatório.';
+    if (!form.cidade.trim()) nextErrors.cidade = 'Cidade é obrigatória.';
     if (!form.uf) nextErrors.uf = 'UF é obrigatória.';
     if (!form.perfilProfissional) nextErrors.perfilProfissional = 'Perfil profissional é obrigatório.';
     if (form.perfilProfissional === 'Outros…' && !form.perfilOutros.trim()) {
@@ -68,26 +72,52 @@ export default function Contato() {
     return Object.keys(nextErrors).length === 0;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
 
     setStatus('sending');
-    // envio simulado
-    setTimeout(() => {
-      setStatus('success');
-      setForm({
-        nome: '',
-        sobrenome: '',
-        empresa: '',
-        email: '',
-        whatsapp: '',
-        uf: '',
-        perfilProfissional: '',
-        perfilOutros: '',
-        principaisServicos: ''
+
+    try {
+      // Preparar dados para enviar ao Reev
+      const nomeCompleto = `${form.nome} ${form.sobrenome}`.trim();
+      const perfilFinal = form.perfilProfissional === 'Outros…' 
+        ? form.perfilOutros 
+        : form.perfilProfissional;
+
+      const response = await sendLeadViaWebhook({
+        name: nomeCompleto,
+        email: form.email,
+        phone: form.whatsapp,
+        company: form.empresa,
+        cidade: form.cidade,
+        uf: form.uf,
+        perfil_profissional: perfilFinal,
+        principais_servicos: form.principaisServicos,
       });
-    }, 900);
+
+      if (response.success) {
+        setStatus('success');
+        // Limpar formulário após sucesso
+        setForm({
+          nome: '',
+          sobrenome: '',
+          empresa: '',
+          email: '',
+          whatsapp: '',
+          cidade: '',
+          uf: '',
+          perfilProfissional: '',
+          perfilOutros: '',
+          principaisServicos: ''
+        });
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error);
+      setStatus('error');
+    }
   }
 
   const showPerfilOutros = form.perfilProfissional === 'Outros…';
@@ -161,6 +191,17 @@ export default function Contato() {
                     className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.whatsapp ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.whatsapp && <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>}
+                </div>
+
+                <div>
+                  <input
+                    name="cidade"
+                    value={form.cidade}
+                    onChange={handleChange}
+                    placeholder="Cidade"
+                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.cidade ? 'border-red-400' : 'border-gray-200'}`}
+                  />
+                  {errors.cidade && <p className="text-red-500 text-sm mt-1">{errors.cidade}</p>}
                 </div>
 
                 <div>
