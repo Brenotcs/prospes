@@ -143,7 +143,7 @@ export default function ProductsCarousel() {
                     // Dimenões calculadas para que 3 caibam e o resto empurre
                     className="flex-shrink-0 w-full lg:w-1/3 px-4" 
                   >
-                    <ProductCard product={product} />
+                    <ProductCard product={product} priority={idx < 4} />
                   </div>
                 ))}
               </div>
@@ -206,7 +206,7 @@ export default function ProductsCarousel() {
                     // Dimenões calculadas para que 1 caiba e o resto empurre
                     className="flex-shrink-0 w-full px-4" 
                   >
-                    <ProductCard product={product} />
+                    <ProductCard product={product} priority={idx < 2} />
                   </div>
                 ))}
               </div>
