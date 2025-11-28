@@ -227,7 +227,7 @@ export default function Contato() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full md:w-auto bg-slate-900 text-white rounded-md px-8 py-3 font-semibold transition-colors transform duration-500 ease-out hover:scale-105 hover:bg-gradient-to-r hover:from-slate-900 hover:to-sky-500 hover:shadow-lg"
+                className="w-full md:w-auto bg-slate-900 text-white rounded-md px-8 py-3 font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r hover:from-slate-900 hover:to-sky-500 hover:shadow-xl active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {status === 'sending' ? 'Enviando...' : 'Enviar Mensagem'}
               </button>

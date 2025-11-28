@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { products } from '../data/products';
 import ProductCard from './ProductCard';
@@ -8,6 +8,13 @@ export default function ProductsCarousel() {
   const [isMobile, setIsMobile] = useState(false);
   const [desktopIndex, setDesktopIndex] = useState(0);
   const [mobileIndex, setMobileIndex] = useState(0);
+  
+  // Estados para drag/swipe
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [currentTranslate, setCurrentTranslate] = useState(0);
+  const [prevTranslate, setPrevTranslate] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Configurações do Desktop:
   const desktopWindowSize = 3; // Quantos produtos VISÍVEIS de uma vez (3 cards)
@@ -47,6 +54,47 @@ export default function ProductsCarousel() {
     setMobileIndex((i) => (i + 1 > mobileMaxIndex) ? 0 : i + 1);
   };
 
+  // Funções para drag/swipe
+  const handleDragStart = (e: React.TouchEvent | React.MouseEvent) => {
+    setIsDragging(true);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    setStartX(clientX);
+    setPrevTranslate(0);
+    setCurrentTranslate(0);
+  };
+
+  const handleDragMove = (e: React.TouchEvent | React.MouseEvent) => {
+    if (!isDragging) return;
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const diff = clientX - startX;
+    setCurrentTranslate(diff);
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    
+    const movedBy = currentTranslate;
+    const threshold = 50; // pixels para considerar um swipe
+    
+    if (isMobile) {
+      if (movedBy < -threshold && mobileIndex < mobileMaxIndex) {
+        handleMobileNext();
+      } else if (movedBy > threshold && mobileIndex > 0) {
+        handleMobilePrev();
+      }
+    } else {
+      if (movedBy < -threshold && desktopIndex < desktopMaxIndex) {
+        handleDesktopNext();
+      } else if (movedBy > threshold && desktopIndex > 0) {
+        handleDesktopPrev();
+      }
+    }
+    
+    setCurrentTranslate(0);
+    setPrevTranslate(0);
+  };
+
 
   return (
     <section id="produtos" className="py-20 bg-white scroll-mt-16">
@@ -75,8 +123,19 @@ export default function ProductsCarousel() {
             <div className="relative overflow-hidden"> 
               {/* Contêiner de deslizamento: flex com transição e translação */}
               <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${desktopIndex * (100 / desktopWindowSize)}%)` }}
+                ref={containerRef}
+                className="flex transition-transform duration-500 ease-out cursor-grab active:cursor-grabbing select-none"
+                style={{ 
+                  transform: `translateX(calc(-${desktopIndex * (100 / desktopWindowSize)}% + ${isDragging ? currentTranslate : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+                onMouseDown={handleDragStart}
+                onMouseMove={handleDragMove}
+                onMouseUp={handleDragEnd}
+                onMouseLeave={handleDragEnd}
+                onTouchStart={handleDragStart}
+                onTouchMove={handleDragMove}
+                onTouchEnd={handleDragEnd}
               >
                 {products.map((product, idx) => (
                   <div 
@@ -128,11 +187,18 @@ export default function ProductsCarousel() {
         {isMobile && (
           <div className="relative mb-8"> 
             
-            <div className="relative overflow-hidden"> 
+            <div className="relative overflow-hidden touch-pan-y"> 
               {/* Contêiner de deslizamento: flex com transição e translação */}
               <div 
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{ transform: `translateX(-${mobileIndex * (100 / mobileWindowSize)}%)` }}
+                ref={containerRef}
+                className="flex transition-transform duration-500 ease-out select-none"
+                style={{ 
+                  transform: `translateX(calc(-${mobileIndex * (100 / mobileWindowSize)}% + ${isDragging ? currentTranslate : 0}px))`,
+                  transition: isDragging ? 'none' : 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+                onTouchStart={handleDragStart}
+                onTouchMove={handleDragMove}
+                onTouchEnd={handleDragEnd}
               >
                 {products.map((product, idx) => (
                   <div 

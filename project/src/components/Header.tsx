@@ -1,5 +1,5 @@
-import React, { useEffect, useState, type MouseEvent } from 'react';
-import { Phone } from 'lucide-react';
+import { useEffect, useState, type MouseEvent } from 'react';
+import { Phone, Menu, X } from 'lucide-react';
 import Logo from '../assets/logo.png';
 
 // Define a altura da área de hover (por exemplo, 4rem = 64px)
@@ -8,6 +8,7 @@ const HEADER_HEIGHT_REM = 'h-16';
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   
 
@@ -18,9 +19,9 @@ export default function Header() {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   };
-
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    setMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -151,16 +152,58 @@ export default function Header() {
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'feedback' || hoveredLink === 'feedback' ? 'w-full' : 'w-0'}`} />
                 </a>
               </nav>
+              <div className="flex items-center gap-3">
+                {/* Botão de Menu Mobile */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="md:hidden text-gray-700 hover:text-teal-600 transition"
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
 
-              <button
-                onClick={handleContactClick}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
-                aria-label="Ir para a seção de contato"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="hidden sm:inline">Fale Conosco</span>
-              </button>
+                {/* Botão Fale Conosco */}
+                <button
+                  onClick={handleContactClick}
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
+                  aria-label="Ir para a seção de contato"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span className="hidden sm:inline">Fale Conosco</span>
+                </button>
+              </div>
               
+            </div>
+
+            {/* Menu Mobile Dropdown */}
+            <div 
+              className={`md:hidden bg-white border-t border-gray-200 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
+                mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <nav className="flex flex-col py-4 px-4 space-y-4">
+                <a 
+                  href="#produtos" 
+                  onClick={(e) => handleNavClick(e, 'produtos')}
+                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                >
+                  Produtos
+                </a>
+                <a 
+                  href="#beneficios" 
+                  onClick={(e) => handleNavClick(e, 'beneficios')}
+                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                >
+                  Benefícios
+                </a>
+                <a 
+                  href="#feedback" 
+                  onClick={(e) => handleNavClick(e, 'feedback')}
+                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                >
+                  Feedbacks
+                </a>
+              </nav>
             </div>
         </header>
     </div>
