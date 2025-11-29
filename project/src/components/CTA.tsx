@@ -2,7 +2,12 @@ import { ShoppingCart } from 'lucide-react';
 
 export default function CTA() {
   const scrollToContact = () => {
-    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const element = document.getElementById('contato');
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
   };
 
   return (

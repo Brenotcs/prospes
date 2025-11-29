@@ -16,7 +16,9 @@ export default function Header() {
     if (e) e.preventDefault();
     const el = document.getElementById('contato');
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
   const handleNavClick = (e: MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -24,7 +26,9 @@ export default function Header() {
     setMobileMenuOpen(false);
     const el = document.getElementById(id);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
     }
   };
 

@@ -2,11 +2,21 @@ import LogoDecreina from '../assets/logodecreina.png';
 
 export default function BannerCarousel() {
   const scrollToProducts = () => {
-    document.getElementById('produtos')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const element = document.getElementById('produtos');
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
   };
 
   const handleBuy = () => {
-    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const element = document.getElementById('contato');
+    if (element) {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
   };
 
   return (
