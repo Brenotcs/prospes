@@ -33,7 +33,7 @@ export default function Header() {
 
   useEffect(() => {
     // IDs das seções usadas para detectar a seção ativa
-    const ids = ['produtos', 'beneficios', 'feedback', 'contato']; 
+    const ids = ['produtos', 'beneficios', 'depoimentos', 'catalogo']; 
     const header = document.querySelector('header') as HTMLElement | null;
     let ticking = false;
 
@@ -140,16 +140,28 @@ export default function Header() {
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
-                {/* 👈 MUDANÇA 2 & 3: Contato para Feedbacks */}
+                {/* DEPOIMENTOS */}
                 <a 
-                  href="#feedback" 
-                  onClick={(e) => handleNavClick(e, 'feedback')}
-                  onMouseEnter={() => setHoveredLink('feedback')}
+                  href="#depoimentos" 
+                  onClick={(e) => handleNavClick(e, 'depoimentos')}
+                  onMouseEnter={() => setHoveredLink('depoimentos')}
                   onMouseLeave={() => setHoveredLink(null)}
                   className="text-gray-700 hover:text-teal-600 transition relative"
                 >
-                  Feedbacks
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'feedback' || hoveredLink === 'feedback' ? 'w-full' : 'w-0'}`} />
+                  Depoimentos
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'depoimentos' || hoveredLink === 'depoimentos' ? 'w-full' : 'w-0'}`} />
+                </a>
+
+                {/* CATÁLOGO */}
+                <a 
+                  href="#catalogo" 
+                  onClick={(e) => handleNavClick(e, 'catalogo')}
+                  onMouseEnter={() => setHoveredLink('catalogo')}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="text-gray-700 hover:text-teal-600 transition relative"
+                >
+                  Catálogo
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'catalogo' || hoveredLink === 'catalogo' ? 'w-full' : 'w-0'}`} />
                 </a>
               </nav>
               <div className="flex items-center gap-3">
@@ -197,11 +209,18 @@ export default function Header() {
                   Benefícios
                 </a>
                 <a 
-                  href="#feedback" 
-                  onClick={(e) => handleNavClick(e, 'feedback')}
+                  href="#depoimentos" 
+                  onClick={(e) => handleNavClick(e, 'depoimentos')}
                   className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
                 >
-                  Feedbacks
+                  Depoimentos
+                </a>
+                <a 
+                  href="#catalogo" 
+                  onClick={(e) => handleNavClick(e, 'catalogo')}
+                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                >
+                  Catálogo
                 </a>
               </nav>
             </div>

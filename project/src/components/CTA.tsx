@@ -1,32 +1,33 @@
-import { MessageCircle } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 
 export default function CTA() {
+  const scrollToContact = () => {
+    document.getElementById('contato')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-teal-600 to-cyan-600">
       <div className="max-w-7xl mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center text-white space-y-8">
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
-          Pronta para testar a Decreína nos seus atendimentos?
+            Cuide melhor de cada paciente
           </h2>
 
           <p className="text-xl md:text-2xl text-teal-50">
-          Entre em contato agora e tire suas dúvidas com nossa equipe!
+            Com produtos profissionais reconhecidos pela comunidade da podologia
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
             <a
               href="#contato"
-              className="bg-white hover:bg-gray-100 text-teal-600 px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center gap-2 transition transform hover:scale-105"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToContact();
+              }}
+              className="bg-white hover:bg-gray-100 text-teal-600 px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center gap-2 transition transform hover:scale-105 shadow-lg"
             >
-              <MessageCircle className="w-6 h-6" />
-              Fale Conosco
-            </a>
-
-            <a
-              href="#produtos"
-              className="border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-full text-lg font-semibold flex items-center justify-center gap-2 transition"
-            >
-              Ver Produtos
+              <ShoppingCart className="w-6 h-6" />
+              Comprar agora
             </a>
           </div>
         </div>
