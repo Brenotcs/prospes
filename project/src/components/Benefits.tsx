@@ -1,4 +1,5 @@
 import { Zap, Shield, TrendingUp } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const benefits = [
   {
@@ -19,9 +20,11 @@ const benefits = [
 ];
 
 export default function Benefits() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section id="beneficios" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Por que profissionais escolhem a Decreína?
@@ -37,8 +40,10 @@ export default function Benefits() {
             return (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-teal-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`bg-gradient-to-br from-gray-50 to-teal-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${
+                  isVisible ? 'animate-slide-up' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="bg-teal-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
                   <Icon className="w-8 h-8 text-teal-600" />

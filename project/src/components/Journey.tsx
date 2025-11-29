@@ -1,4 +1,5 @@
 import { Search, Droplets, Heart } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const steps = [
   {
@@ -22,9 +23,11 @@ const steps = [
 ];
 
 export default function Journey() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             Como entregar resultado real em cada atendimento
@@ -40,8 +43,10 @@ export default function Journey() {
             return (
               <div
                 key={index}
-                className="relative bg-gradient-to-br from-gray-50 to-teal-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`relative bg-gradient-to-br from-gray-50 to-teal-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 ${
+                  isVisible ? 'animate-slide-up' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="absolute -top-4 -left-4 bg-teal-600 text-white w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
                   {step.number}

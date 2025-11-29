@@ -48,10 +48,91 @@ section[id] {
 	}
 }
 
+/* Animação de slide para cima */
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Animação de slide da esquerda */
+@keyframes slideInLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Animação de slide da direita */
+@keyframes slideInRight {
+	from {
+		opacity: 0;
+		transform: translateX(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Animação de fade com zoom */
+@keyframes fadeZoom {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+/* Animação de rotação suave */
+@keyframes rotateIn {
+	from {
+		opacity: 0;
+		transform: rotate(-5deg) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: rotate(0) scale(1);
+	}
+}
+
 .modal-overlay-enter {
 	animation: modalFadeIn 0.3s ease-out;
 }
 
 .modal-content-enter {
 	animation: modalScaleIn 0.3s ease-out;
+}
+
+/* Classes para animações de scroll */
+.animate-slide-up {
+	animation: slideUp 0.8s ease-out forwards;
+}
+
+.animate-slide-left {
+	animation: slideInLeft 0.8s ease-out forwards;
+}
+
+.animate-slide-right {
+	animation: slideInRight 0.8s ease-out forwards;
+}
+
+.animate-fade-zoom {
+	animation: fadeZoom 0.8s ease-out forwards;
+}
+
+.animate-rotate-in {
+	animation: rotateIn 0.8s ease-out forwards;
 }

@@ -1,4 +1,5 @@
 import { Users, Award, MapPin } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const stats = [
   {
@@ -19,9 +20,11 @@ const stats = [
 ];
 
 export default function Stats() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Números que comprovam a confiança
@@ -37,8 +40,10 @@ export default function Stats() {
             return (
               <div
                 key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center hover:bg-white/10 transition-all duration-300 animate-fadeInUp"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className={`bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10 text-center hover:bg-white/10 transition-all duration-300 ${
+                  isVisible ? 'animate-fade-zoom' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="bg-teal-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 mx-auto">
                   <Icon className="w-8 h-8 text-teal-400" />

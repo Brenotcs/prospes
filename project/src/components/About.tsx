@@ -1,11 +1,14 @@
 import { Award, HeartHandshake } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 export default function About() {
+  const { ref, isVisible } = useScrollAnimation();
+
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
+      <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-fadeInUp">
+          <div className={`space-y-6 ${isVisible ? 'animate-slide-left' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
               Sobre a Decreína + Prospez
             </h2>
@@ -44,7 +47,7 @@ export default function About() {
             </div>
           </div>
 
-          <div className="relative animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+          <div className={`relative ${isVisible ? 'animate-slide-right' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
             <div className="absolute inset-0 bg-gradient-to-br from-teal-200 to-cyan-200 rounded-3xl transform rotate-3"></div>
             <div className="relative bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-12 shadow-xl">
               <div className="text-center space-y-4">
