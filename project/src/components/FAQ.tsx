@@ -4,22 +4,18 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 const faqs = [
   {
     question: "Os produtos são originais?",
-    description: "Sobre a autenticidade dos produtos",
     answer: "Sim. Toda a linha vendida aqui é 100% Decreína direto da fábrica. Garantimos a autenticidade de todos os produtos."
   },
   {
     question: "Demora para chegar?",
-    description: "Sobre prazo e entrega",
     answer: "Enviamos para todo o Brasil com prazos rápidos e rastreamento completo. Você acompanha seu pedido desde o envio até a entrega."
   },
   {
     question: "Tem desconto para compras maiores?",
-    description: "Sobre descontos e condições especiais",
     answer: "Sim, oferecemos descontos progressivos no carrinho e condições especiais para clínicas. Entre em contato para conhecer nossas condições exclusivas."
   },
   {
     question: "Podem ser usados em qualquer tipo de pele?",
-    description: "Sobre compatibilidade com diferentes tipos de pele",
     answer: "Sim, as fórmulas são seguras para uso profissional em todos os tipos de pele, inclusive as mais sensíveis. Todos os produtos são testados dermatologicamente."
   }
 ];
@@ -54,10 +50,7 @@ export default function FAQ() {
                 onClick={() => toggleFAQ(index)}
                 className="w-full px-8 py-6 flex items-center justify-between text-left hover:bg-gray-50 transition-colors"
               >
-                <div className="flex-1 pr-8">
-                  <p className="text-sm text-gray-700 mb-1">{faq.description}</p>
-                  <h3 className="text-lg font-bold text-gray-900">{faq.question}</h3>
-                </div>
+                <h3 className="text-lg font-semibold text-gray-900 pr-8">{faq.question}</h3>
                 <div className={`transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}>
                   <ChevronDown className="w-6 h-6 text-teal-600 flex-shrink-0" />
                 </div>
