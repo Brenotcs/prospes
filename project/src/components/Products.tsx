@@ -94,21 +94,25 @@ export default function Products() {
             </div>
           </div>
 
-          <button
-            onClick={handlePrev}
-            className="absolute left-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-            aria-label="Produto anterior"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
+          {currentIndex > 0 && (
+            <button
+              onClick={handlePrev}
+              className="absolute left-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              aria-label="Produto anterior"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
 
-          <button
-            onClick={handleNext}
-            className="absolute right-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-            aria-label="Próximo produto"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
+          {currentIndex < featuredProducts.length - 1 && (
+            <button
+              onClick={handleNext}
+              className="absolute right-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+              aria-label="Próximo produto"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
 
           <div className="flex justify-center gap-2 mt-6">
             {featuredProducts.map((_, i) => (

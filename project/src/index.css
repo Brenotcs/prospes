@@ -136,3 +136,13 @@ section[id] {
 .animate-rotate-in {
 	animation: rotateIn 0.8s ease-out forwards;
 }
+
+/* Esconder scrollbar mas manter funcionalidade */
+.scrollbar-hide {
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;  /* Chrome, Safari and Opera */
+}

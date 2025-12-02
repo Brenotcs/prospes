@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { products } from '../data/products';
 import ProductCard from './ProductCard';
@@ -42,7 +42,28 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [currentTranslate, setCurrentTranslate] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const desktopContainerRef = useRef<HTMLDivElement>(null);
+
+  const hasMoreThan3 = categoryProducts.length > 3;
+
+  // Verificar se pode rolar para esquerda/direita no desktop
+  const checkScrollButtons = () => {
+    if (desktopContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = desktopContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollButtons();
+    window.addEventListener('resize', checkScrollButtons);
+    return () => window.removeEventListener('resize', checkScrollButtons);
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((i) => (i - 1 < 0 ? categoryProducts.length - 1 : i - 1));
@@ -56,28 +77,57 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
     setIsDragging(true);
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     setStartX(clientX);
-    setCurrentTranslate(0);
+    
+    // Para desktop carousel
+    if (desktopContainerRef.current) {
+      setScrollLeft(desktopContainerRef.current.scrollLeft);
+    } else {
+      setCurrentTranslate(0);
+    }
   };
 
   const handleDragMove = (e: React.TouchEvent | React.MouseEvent) => {
     if (!isDragging) return;
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     const diff = clientX - startX;
-    setCurrentTranslate(diff);
+    
+    // Para desktop carousel
+    if (desktopContainerRef.current) {
+      desktopContainerRef.current.scrollLeft = scrollLeft - diff;
+    } else {
+      setCurrentTranslate(diff);
+    }
   };
 
   const handleDragEnd = () => {
     if (!isDragging) return;
     setIsDragging(false);
     
-    const threshold = 50;
-    if (currentTranslate < -threshold && currentIndex < categoryProducts.length - 1) {
-      handleNext();
-    } else if (currentTranslate > threshold && currentIndex > 0) {
-      handlePrev();
+    // Mobile carousel logic
+    if (!desktopContainerRef.current) {
+      const threshold = 50;
+      if (currentTranslate < -threshold && currentIndex < categoryProducts.length - 1) {
+        handleNext();
+      } else if (currentTranslate > threshold && currentIndex > 0) {
+        handlePrev();
+      }
+      setCurrentTranslate(0);
     }
+  };
+
+  const handleDesktopScroll = (direction: 'left' | 'right') => {
+    if (!desktopContainerRef.current) return;
+    const scrollAmount = 400;
+    const newScrollLeft = direction === 'left' 
+      ? desktopContainerRef.current.scrollLeft - scrollAmount
+      : desktopContainerRef.current.scrollLeft + scrollAmount;
     
-    setCurrentTranslate(0);
+    desktopContainerRef.current.scrollTo({
+      left: newScrollLeft,
+      behavior: 'smooth'
+    });
+    
+    setTimeout(checkScrollButtons, 300);
   };
 
   return (
@@ -104,21 +154,25 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
           </div>
         </div>
 
-        <button
-          onClick={handlePrev}
-          className="absolute left-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-          aria-label="Produto anterior"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
+        {currentIndex > 0 && (
+          <button
+            onClick={handlePrev}
+            className="absolute left-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+            aria-label="Produto anterior"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        )}
 
-        <button
-          onClick={handleNext}
-          className="absolute right-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
-          aria-label="Próximo produto"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
+        {currentIndex < categoryProducts.length - 1 && (
+          <button
+            onClick={handleNext}
+            className="absolute right-0 top-1/3 -translate-y-1/2 bg-teal-600/80 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 z-10"
+            aria-label="Próximo produto"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        )}
 
         <div className="flex justify-center gap-2 mt-6">
           {categoryProducts.map((_, i) => (
@@ -134,14 +188,55 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
         </div>
       </div>
 
-      {/* Desktop: Grid */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {categoryProducts.map((product, index) => (
-          <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
-            <ProductCard product={product} />
+      {/* Desktop: Grid ou Carousel */}
+      {hasMoreThan3 ? (
+        <div className="hidden md:block relative">
+          <div 
+            ref={desktopContainerRef}
+            className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onMouseDown={handleDragStart}
+            onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onScroll={checkScrollButtons}
+          >
+            {categoryProducts.map((product, index) => (
+              <div key={product.id} className="flex-shrink-0 w-[calc(33.333%-1.5rem)] min-w-[280px] animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
+                <ProductCard product={product} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {canScrollLeft && (
+            <button
+              onClick={() => handleDesktopScroll('left')}
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-teal-600/90 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 hover:bg-teal-700 z-10"
+              aria-label="Rolar para esquerda"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+          )}
+
+          {canScrollRight && (
+            <button
+              onClick={() => handleDesktopScroll('right')}
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-teal-600/90 backdrop-blur-sm text-white rounded-full p-3 shadow-lg transition-all hover:scale-110 hover:bg-teal-700 z-10"
+              aria-label="Rolar para direita"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          )}
+        </div>
+      ) : (
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {categoryProducts.map((product, index) => (
+            <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }
