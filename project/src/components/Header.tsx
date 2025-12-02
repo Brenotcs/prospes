@@ -102,7 +102,7 @@ export default function Header() {
         
         <header className={`
           absolute top-0 left-0 right-0 
-          ${scrolled ? 'bg-white/90 backdrop-blur-sm' : 'bg-white'} 
+          ${scrolled ? 'bg-slate-900/80 backdrop-blur-md' : 'bg-slate-900/60 backdrop-blur-sm'} 
           shadow-md w-full transition-all duration-300 ease-in-out
           ${scrolled ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'} 
           group-hover:translate-y-0 group-hover:opacity-100 
@@ -126,10 +126,10 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, 'produtos')}
                   onMouseEnter={() => setHoveredLink('produtos')}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className="text-gray-700 hover:text-teal-600 transition relative"
+                  className="text-gray-200 hover:text-teal-400 transition relative"
                 >
                   Produtos
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
                 {/* BENEFÍCIOS */}
@@ -138,10 +138,10 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, 'beneficios')}
                   onMouseEnter={() => setHoveredLink('beneficios')}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className="text-gray-700 hover:text-teal-600 transition relative"
+                  className="text-gray-200 hover:text-teal-400 transition relative"
                 >
                   Benefícios
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
                 {/* DEPOIMENTOS */}
@@ -150,10 +150,10 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, 'depoimentos')}
                   onMouseEnter={() => setHoveredLink('depoimentos')}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className="text-gray-700 hover:text-teal-600 transition relative"
+                  className="text-gray-200 hover:text-teal-400 transition relative"
                 >
                   Depoimentos
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'depoimentos' || hoveredLink === 'depoimentos' ? 'w-full' : 'w-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'depoimentos' || hoveredLink === 'depoimentos' ? 'w-full' : 'w-0'}`} />
                 </a>
 
                 {/* CATÁLOGO */}
@@ -162,17 +162,17 @@ export default function Header() {
                   onClick={(e) => handleNavClick(e, 'catalogo')}
                   onMouseEnter={() => setHoveredLink('catalogo')}
                   onMouseLeave={() => setHoveredLink(null)}
-                  className="text-gray-700 hover:text-teal-600 transition relative"
+                  className="text-gray-200 hover:text-teal-400 transition relative"
                 >
                   Catálogo
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-600 transition-all duration-300 ${activeSection === 'catalogo' || hoveredLink === 'catalogo' ? 'w-full' : 'w-0'}`} />
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'catalogo' || hoveredLink === 'catalogo' ? 'w-full' : 'w-0'}`} />
                 </a>
               </nav>
               <div className="flex items-center gap-3">
                 {/* Botão de Menu Mobile */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="md:hidden text-gray-700 hover:text-teal-600 transition"
+                  className="md:hidden text-gray-200 hover:text-teal-400 transition"
                   aria-label="Toggle menu"
                 >
                   {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -181,7 +181,7 @@ export default function Header() {
                 {/* Botão Fale Conosco */}
                 <button
                   onClick={handleContactClick}
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
+                  className="bg-gradient-to-r from-teal-500 to-blue-600 hover:from-teal-600 hover:to-blue-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition shadow-lg"
                   aria-label="Ir para a seção de contato"
                 >
                   <MessageCircle className="w-4 h-4" />
@@ -193,7 +193,7 @@ export default function Header() {
 
             {/* Menu Mobile Dropdown */}
             <div 
-              className={`md:hidden bg-white border-t border-gray-200 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
                 mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
               }`}
             >
@@ -201,28 +201,28 @@ export default function Header() {
                 <a 
                   href="#produtos" 
                   onClick={(e) => handleNavClick(e, 'produtos')}
-                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
                 >
                   Produtos
                 </a>
                 <a 
                   href="#beneficios" 
                   onClick={(e) => handleNavClick(e, 'beneficios')}
-                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
                 >
                   Benefícios
                 </a>
                 <a 
                   href="#depoimentos" 
                   onClick={(e) => handleNavClick(e, 'depoimentos')}
-                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
                 >
                   Depoimentos
                 </a>
                 <a 
                   href="#catalogo" 
                   onClick={(e) => handleNavClick(e, 'catalogo')}
-                  className="text-gray-700 hover:text-teal-600 transition py-2 border-b border-gray-100 transform transition-transform duration-200 hover:translate-x-2"
+                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
                 >
                   Catálogo
                 </a>

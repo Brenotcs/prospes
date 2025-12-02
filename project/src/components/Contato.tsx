@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { sendLeadViaWebhook } from '../services/reev';
 
 type FormState = {
   nome: string;
@@ -79,41 +78,47 @@ export default function Contato() {
     setStatus('sending');
 
     try {
-      // Preparar dados para enviar ao Reev
+      // Preparar dados para salvar
       const nomeCompleto = `${form.nome} ${form.sobrenome}`.trim();
       const perfilFinal = form.perfilProfissional === 'Outros…' 
         ? form.perfilOutros 
         : form.perfilProfissional;
 
-      const response = await sendLeadViaWebhook({
-        name: nomeCompleto,
-        email: form.email,
-        phone: form.whatsapp,
-        company: form.empresa,
-        cidade: form.cidade,
-        uf: form.uf,
-        perfil_profissional: perfilFinal,
-        principais_servicos: form.principaisServicos,
-      });
+      // Salva direto no Supabase - SEM BACKEND NECESSÁRIO!
+      const { supabase } = await import('../lib/supabase');
+      const { error } = await supabase
+        .from('leads')
+        .insert([{
+          name: nomeCompleto,
+          email: form.email,
+          phone: form.whatsapp,
+          company: form.empresa,
+          cidade: form.cidade,
+          uf: form.uf,
+          perfil_profissional: perfilFinal,
+          principais_servicos: form.principaisServicos,
+        }]);
 
-      if (response.success) {
-        setStatus('success');
-        // Limpar formulário após sucesso
-        setForm({
-          nome: '',
-          sobrenome: '',
-          empresa: '',
-          email: '',
-          whatsapp: '',
-          cidade: '',
-          uf: '',
-          perfilProfissional: '',
-          perfilOutros: '',
-          principaisServicos: ''
-        });
-      } else {
+      if (error) {
+        console.error('Erro ao salvar:', error);
         setStatus('error');
+        return;
       }
+
+      setStatus('success');
+      // Limpar formulário após sucesso
+      setForm({
+        nome: '',
+        sobrenome: '',
+        empresa: '',
+        email: '',
+        whatsapp: '',
+        cidade: '',
+        uf: '',
+        perfilProfissional: '',
+        perfilOutros: '',
+        principaisServicos: ''
+      });
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
       setStatus('error');
