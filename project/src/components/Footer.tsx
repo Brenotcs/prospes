@@ -33,7 +33,8 @@ export default function Footer() {
             </div>
             
             <p className="text-base leading-relaxed">
-              Canal de vendas oficial da Decreína para profissionais, revendedoras e distribuidores. <br></br>Trabalhamos com cosméticos podológicos que garantem um atendimento seguro, eficaz e sem complicações. Saúde integral para unhas, pés e mãos!
+              Canal de vendas oficial da Decreína para profissionais.<br />
+              Saúde integral para unhas, pés e mãos com cosméticos podológicos que garantem um atendimento seguro, eficaz e sem complicações!
             </p>
           </div>
 
@@ -106,20 +107,6 @@ export default function Footer() {
             
             <ul className="space-y-3">
               
-              {/* Perfil @decreina_oficial (Instagram) */}
-              <li className="text-sm">
-                <a 
-                  href="https://www.instagram.com/decreina_oficial" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-3 text-gray-300 hover:text-teal-500 transition"
-                  aria-label="Instagram Decreina Oficial"
-                >
-                  <Instagram className="w-5 h-5 flex-shrink-0" />
-                  <span>Instagram Decreína</span>
-                </a>
-              </li>
-
               {/* Perfil @prospes_oficial (Instagram) */}
               <li className="text-sm">
                 <a 
@@ -131,6 +118,20 @@ export default function Footer() {
                 >
                   <Instagram className="w-5 h-5 flex-shrink-0" />
                   <span>Instagram Prospés</span>
+                </a>
+              </li>
+
+              {/* Perfil @decreina_oficial (Instagram) */}
+              <li className="text-sm">
+                <a 
+                  href="https://www.instagram.com/decreina_oficial" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-3 text-gray-300 hover:text-teal-500 transition"
+                  aria-label="Instagram Decreina Oficial"
+                >
+                  <Instagram className="w-5 h-5 flex-shrink-0" />
+                  <span>Instagram Decreína</span>
                 </a>
               </li>
               

@@ -34,16 +34,18 @@ export default function BannerCarousel() {
 
           {/* Texto e ações */}
           <div className="space-y-4 text-white">
-            <div className="inline-block bg-white/10 text-white/90 px-3 py-1 rounded-full text-sm font-semibold">
-              Cosméticos Podológicos Profissionais
+            <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-semibold">
+              Referência em qualidade e inovação, desde 2003
             </div>
 
-            <div className="text-sm text-white/90 font-medium">Referência em qualidade e inovação, desde 2003</div>
+            <div className="inline-block bg-white/20 text-white px-4 py-2 rounded-full text-sm font-medium">
+              A Prospés é o Canal de Vendas Oficial da Decreína para Profissionais
+            </div>
 
             <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight">Decreína</h3>
 
             <p className="text-base text-white/90 leading-relaxed max-w-xl">
-              Nossa linha profissional reúne produtos de alta performance para hidratação, renovação, reparação e proteção da pele e das unhas, oferecendo um ciclo de cuidado completo, com resultados visíveis, segurança e praticidade para o trabalho em cabine e no cuidado domiciliar.
+              Nossa linha profissional reúne produtos de alta performance para hidratação, renovação, reparação e proteção da pele e das unhas, oferecendo um ciclo de cuidado completo, com resultados visíveis, segurança e praticidade.
             </p>
 
             <div className="flex gap-3 pt-3">
@@ -56,7 +58,7 @@ export default function BannerCarousel() {
 
               <button
                 onClick={handleBuy}
-                className="bg-gradient-to-r from-orange-400 to-rose-500 text-white font-semibold px-6 py-3 rounded-full shadow hover:scale-105 transition"
+                className="bg-gradient-to-r from-purple-500 to-purple-700 text-white font-semibold px-6 py-3 rounded-full shadow hover:scale-105 transition"
               >
                 Comprar
               </button>

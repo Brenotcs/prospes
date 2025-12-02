@@ -9,7 +9,7 @@ const benefits = [
   },
   {
     icon: Shield,
-    title: "Fórmulas seguras para pele sensível",
+    title: "Fórmulas seguras para peles sensíveis",
     description: "Produtos testados dermatologicamente, desenvolvidos especialmente para uso profissional com total segurança."
   },
   {

@@ -10,7 +10,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className={`space-y-6 ${isVisible ? 'animate-slide-left' : 'opacity-0'}`}>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-              Sobre a Decreína + Prospez
+              Sobre a Decreína + Prospés
             </h2>
             
             <div className="space-y-4">
@@ -23,7 +23,7 @@ export default function About() {
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">A Decreína</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Marca criada por especialistas em cuidados para os pés, desenvolvida especificamente 
+                    Marca criada por especialistas em cuidados podológicos, desenvolvida especificamente 
                     para a rotina profissional. Cada produto é resultado de pesquisa e desenvolvimento 
                     focado em entregar resultados reais.
                   </p>
@@ -37,7 +37,7 @@ export default function About() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">A Prospez</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">A Prospés</h3>
                   <p className="text-gray-600 leading-relaxed">
                     Canal exclusivo onde podólogas e profissionais encontram toda a linha oficial Decreína, 
                     com entrega rápida e suporte real. Seu parceiro de confiança para produtos profissionais.

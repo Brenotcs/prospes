@@ -1,5 +1,5 @@
 import { useEffect, useState, type MouseEvent } from 'react';
-import { Phone, Menu, X } from 'lucide-react';
+import { MessageCircle, Menu, X } from 'lucide-react';
 import Logo from '../assets/logo.png';
 
 // Define a altura da área de hover (por exemplo, 4rem = 64px)
@@ -184,7 +184,7 @@ export default function Header() {
                   className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-full flex items-center gap-2 transition"
                   aria-label="Ir para a seção de contato"
                 >
-                  <Phone className="w-4 h-4" />
+                  <MessageCircle className="w-4 h-4" />
                   <span className="hidden sm:inline">Fale Conosco</span>
                 </button>
               </div>

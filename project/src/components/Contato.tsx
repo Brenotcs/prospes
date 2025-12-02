@@ -143,7 +143,7 @@ export default function Contato() {
                     value={form.nome}
                     onChange={handleChange}
                     placeholder="Nome"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.nome ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.nome ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.nome && <p className="text-red-500 text-sm mt-1">{errors.nome}</p>}
                 </div>
@@ -154,20 +154,27 @@ export default function Contato() {
                     value={form.sobrenome}
                     onChange={handleChange}
                     placeholder="Sobrenome"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.sobrenome ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.sobrenome ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.sobrenome && <p className="text-red-500 text-sm mt-1">{errors.sobrenome}</p>}
                 </div>
 
-                <div>
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <label htmlFor="empresa" className="block text-sm font-semibold text-gray-800 mb-2">
+                    Empresa
+                  </label>
+                  <p className="text-sm text-gray-700 mb-3 leading-relaxed">
+                    Se não tiver uma clínica ou salão, coloque aqui seu perfil do Instagram!
+                  </p>
                   <input
+                    id="empresa"
                     name="empresa"
                     value={form.empresa}
                     onChange={handleChange}
-                    placeholder="Empresa (Se você não tiver uma clínica ou salão, coloque aqui seu perfil do Instagram!)"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.empresa ? 'border-red-400' : 'border-gray-200'}`}
+                    placeholder="Nome da empresa ou @instagram"
+                    className={`w-full rounded-md border px-4 py-2.5 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition-all ${errors.empresa ? 'border-red-400' : 'border-gray-300'}`}
                   />
-                  {errors.empresa && <p className="text-red-500 text-sm mt-1">{errors.empresa}</p>}
+                  {errors.empresa && <p className="text-red-500 text-sm mt-2">{errors.empresa}</p>}
                 </div>
 
                 <div>
@@ -177,7 +184,7 @@ export default function Contato() {
                     value={form.email}
                     onChange={handleChange}
                     placeholder="Email"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.email ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.email ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
@@ -188,7 +195,7 @@ export default function Contato() {
                     value={form.whatsapp}
                     onChange={handleChange}
                     placeholder="WhatsApp"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.whatsapp ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.whatsapp ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.whatsapp && <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>}
                 </div>
@@ -199,7 +206,7 @@ export default function Contato() {
                     value={form.cidade}
                     onChange={handleChange}
                     placeholder="Cidade"
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.cidade ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.cidade ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.cidade && <p className="text-red-500 text-sm mt-1">{errors.cidade}</p>}
                 </div>
@@ -209,7 +216,7 @@ export default function Contato() {
                     name="uf"
                     value={form.uf}
                     onChange={handleChange}
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.uf ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.uf ? 'border-red-400' : 'border-gray-200'}`}
                   >
                     <option value="">UF</option>
                     {ESTADOS_BRASIL.map(estado => (
@@ -227,7 +234,7 @@ export default function Contato() {
                     name="perfilProfissional"
                     value={form.perfilProfissional}
                     onChange={handleChange}
-                    className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilProfissional ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilProfissional ? 'border-red-400' : 'border-gray-200'}`}
                   >
                     <option value="">Perfil profissional</option>
                     {PERFIS_PROFISSIONAIS.map(perfil => (
@@ -244,7 +251,7 @@ export default function Contato() {
                       value={form.perfilOutros}
                       onChange={handleChange}
                       placeholder="Especifique seu perfil profissional"
-                      className={`w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilOutros ? 'border-red-400' : 'border-gray-200'}`}
+                      className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilOutros ? 'border-red-400' : 'border-gray-200'}`}
                     />
                     {errors.perfilOutros && <p className="text-red-500 text-sm mt-1">{errors.perfilOutros}</p>}
                   </div>
@@ -257,7 +264,7 @@ export default function Contato() {
                     onChange={handleChange}
                     placeholder="Principais serviços - Costumo trabalhar principalmente com casos de…"
                     rows={8}
-                    className={`w-full rounded-md border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.principaisServicos ? 'border-red-400' : 'border-gray-200'}`}
+                    className={`w-full rounded-md border px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.principaisServicos ? 'border-red-400' : 'border-gray-200'}`}
                   />
                   {errors.principaisServicos && <p className="text-red-500 text-sm mt-1">{errors.principaisServicos}</p>}
                 </div>
