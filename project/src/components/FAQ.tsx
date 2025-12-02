@@ -11,10 +11,6 @@ const faqs = [
     answer: "Enviamos para todo o Brasil com prazos rápidos e rastreamento completo. Você acompanha seu pedido desde o envio até a entrega."
   },
   {
-    question: "Tem desconto para compras maiores?",
-    answer: "Sim, oferecemos descontos progressivos no carrinho e condições especiais para clínicas. Entre em contato para conhecer nossas condições exclusivas."
-  },
-  {
     question: "Podem ser usados em qualquer tipo de pele?",
     answer: "Sim, as fórmulas são seguras para uso profissional em todos os tipos de pele, inclusive as mais sensíveis. Todos os produtos são testados dermatologicamente."
   }
