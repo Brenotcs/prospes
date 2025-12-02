@@ -1,6 +1,8 @@
--- Crie esta tabela no Supabase Dashboard
--- SQL Editor > New Query > Cole este código > Run
+-- ============================================
+-- COLE ESTE CÓDIGO NO SUPABASE SQL EDITOR
+-- ============================================
 
+-- 1. Criar tabela
 create table if not exists leads (
   id uuid default gen_random_uuid() primary key,
   name text not null,
@@ -14,13 +16,28 @@ create table if not exists leads (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Índice para buscar por email
+-- 2. Criar índices
 create index if not exists leads_email_idx on leads(email);
-
--- Índice para ordenar por data
 create index if not exists leads_created_at_idx on leads(created_at desc);
 
--- Comentários nas colunas
+-- 3. HABILITAR ROW LEVEL SECURITY (RLS)
+alter table leads enable row level security;
+
+-- 4. PERMITIR INSERÇÃO PÚBLICA (qualquer pessoa pode inserir leads)
+create policy "Permitir inserção pública de leads"
+  on leads
+  for insert
+  to anon, authenticated
+  with check (true);
+
+-- 5. PERMITIR LEITURA APENAS PARA USUÁRIOS AUTENTICADOS
+create policy "Apenas autenticados podem ler leads"
+  on leads
+  for select
+  to authenticated
+  using (true);
+
+-- 6. Comentários nas colunas
 comment on table leads is 'Leads capturados pelo formulário de contato';
 comment on column leads.name is 'Nome completo do lead';
 comment on column leads.email is 'Email de contato';

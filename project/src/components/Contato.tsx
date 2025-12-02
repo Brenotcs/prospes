@@ -84,25 +84,52 @@ export default function Contato() {
         ? form.perfilOutros 
         : form.perfilProfissional;
 
-      // Salva direto no Supabase - SEM BACKEND NECESSÁRIO!
-      const { supabase } = await import('../lib/supabase');
-      const { error } = await supabase
-        .from('leads')
-        .insert([{
-          name: nomeCompleto,
-          email: form.email,
-          phone: form.whatsapp,
-          company: form.empresa,
-          cidade: form.cidade,
-          uf: form.uf,
-          perfil_profissional: perfilFinal,
-          principais_servicos: form.principaisServicos,
-        }]);
+      const leadData = {
+        name: nomeCompleto,
+        email: form.email,
+        phone: form.whatsapp,
+        company: form.empresa,
+        cidade: form.cidade,
+        uf: form.uf,
+        perfil_profissional: perfilFinal,
+        principais_servicos: form.principaisServicos,
+      };
 
-      if (error) {
-        console.error('Erro ao salvar:', error);
-        setStatus('error');
-        return;
+      console.log('Enviando lead:', leadData);
+
+      // 1. Salvar no Supabase (backup)
+      const { supabase } = await import('../lib/supabase');
+      const { error: supabaseError } = await supabase
+        .from('leads')
+        .insert([leadData]);
+
+      if (supabaseError) {
+        console.error('Erro ao salvar no Supabase:', supabaseError);
+      }
+
+      // 2. Enviar para Make.com → Reev
+      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
+      
+      if (webhookUrl) {
+        try {
+          const webhookResponse = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...leadData,
+              timestamp: new Date().toISOString(),
+              source: 'website_contact_form'
+            }),
+          });
+
+          if (!webhookResponse.ok) {
+            console.error('Erro ao enviar para webhook:', webhookResponse.status);
+          } else {
+            console.log('Lead enviado para Make/Reev com sucesso!');
+          }
+        } catch (webhookError) {
+          console.error('Erro no webhook:', webhookError);
+        }
       }
 
       setStatus('success');
@@ -165,9 +192,10 @@ export default function Contato() {
                 </div>
 
                 <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                  <label htmlFor="empresa" className="block text-sm font-semibold text-gray-800 mb-2">
-                    Empresa
+                  <label htmlFor="empresa" className="block text-sm font-semibold text-gray-800 mb-1">
+                    Empresa <span className="text-red-500">*</span>
                   </label>
+                  <p className="text-xs text-gray-500 mb-2 italic">Campo obrigatório</p>
                   <p className="text-sm text-gray-700 mb-3 leading-relaxed">
                     Se não tiver uma clínica ou salão, coloque aqui seu perfil do Instagram!
                   </p>
