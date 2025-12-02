@@ -128,7 +128,7 @@ export default function Header() {
                   onMouseLeave={() => setHoveredLink(null)}
                   className="text-gray-200 hover:text-teal-400 transition relative"
                 >
-                  Produtos
+                  Mais Vendidos
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
                 </a>
                 
