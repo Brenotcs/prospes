@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { CheckCircle } from 'lucide-react';
 
 type FormState = {
   nome: string;
@@ -133,6 +134,7 @@ export default function Contato() {
       }
 
       setStatus('success');
+      
       // Limpar formulário após sucesso
       setForm({
         nome: '',
@@ -146,6 +148,13 @@ export default function Contato() {
         perfilOutros: '',
         principaisServicos: ''
       });
+
+      // Após 2 segundos, rolar para o topo da página
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Resetar o status após rolar
+        setTimeout(() => setStatus('idle'), 1000);
+      }, 2000);
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
       setStatus('error');
@@ -304,7 +313,7 @@ export default function Contato() {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-col items-center gap-4">
               <button
                 type="submit"
                 disabled={status === 'sending'}
@@ -312,14 +321,18 @@ export default function Contato() {
               >
                 {status === 'sending' ? 'Enviando...' : 'Enviar Mensagem'}
               </button>
-            </div>
 
-            {status === 'success' && (
-              <p className="text-green-600 text-center mt-4">Mensagem enviada com sucesso.</p>
-            )}
-            {status === 'error' && (
-              <p className="text-red-600 text-center mt-4">Erro ao enviar. Tente novamente.</p>
-            )}
+              {status === 'success' && (
+                <div className="flex items-center gap-2 text-green-600 animate-fadeInUp">
+                  <CheckCircle className="w-8 h-8 animate-bounce" />
+                  <span className="font-semibold">Mensagem enviada com sucesso!</span>
+                </div>
+              )}
+              
+              {status === 'error' && (
+                <p className="text-red-600 text-center">Erro ao enviar. Tente novamente.</p>
+              )}
+            </div>
           </form>
         </div>
       </div>
