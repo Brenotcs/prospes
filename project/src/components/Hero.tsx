@@ -1,5 +1,6 @@
 import { ChevronDown } from 'lucide-react';
-import ImgHero2 from '../assets/imghero2.png'; 
+import ImgHero2 from '../assets/imghero2.png';
+import BackgroundImg from '../assets/background.jpg'; 
 
 export default function Hero() {
   const scrollToBanners = () => {
@@ -68,12 +69,21 @@ export default function Hero() {
         </div>
       </div>
       
-      {/* Imagem - apenas desktop (xl e acima) - posicionada no canto inferior direito */}
-      <div className="hidden xl:block absolute bottom-0 right-0 z-10 opacity-0 animate-fadeIn" style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
+      {/* Imagem com background - apenas desktop (xl e acima) - posicionada no canto inferior direito */}
+      <div className="hidden xl:block absolute bottom-0 right-0 top-24 w-[35%] z-10 opacity-0 animate-fadeIn overflow-hidden" style={{ animationDelay: '0.4s', animationFillMode: 'forwards', clipPath: 'ellipse(100% 100% at 100% 50%)' }}>
+        {/* Background */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={BackgroundImg}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+        </div>
+        {/* Imagem principal */}
         <img
           src={ImgHero2}
           alt="Profissional com produtos Decreína"
-          className="w-auto h-[calc(100vh-80px)] object-cover object-bottom drop-shadow-2xl"
+          className="relative z-10 w-auto h-full object-cover object-bottom drop-shadow-2xl ml-auto"
         />
       </div>
       

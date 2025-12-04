@@ -29,7 +29,7 @@ export interface SaveResponse {
 export async function saveLeadToSupabase(data: LeadData): Promise<SaveResponse> {
   try {
     const { data: savedData, error } = await supabase
-      .from('leads')
+      .from('leads') 
       .insert([{
         name: data.name,
         email: data.email,
