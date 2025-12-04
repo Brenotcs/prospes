@@ -15,8 +15,15 @@ import Contato from './components/Contato';
 import Footer from './components/Footer';
 
 function App() {
+  // Desabilita clique direito em imagens
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).tagName === 'IMG') {
+      e.preventDefault();
+    }
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" onContextMenu={handleContextMenu}>
       <Header />
       {/* 1. HERO (Acima da Dobra) */}
       <Hero />

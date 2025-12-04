@@ -7,9 +7,9 @@ export default function About() {
   return (
     <section className="py-20 bg-white">
       <div ref={ref} className="max-w-7xl mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid xl:grid-cols-2 gap-12 items-center">
           <div className={`space-y-6 ${isVisible ? 'animate-slide-left' : 'opacity-0'}`}>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <h2 className="text-4xl xl:text-5xl font-bold text-gray-900">
               Sobre a Decreína + Prospés
             </h2>
             

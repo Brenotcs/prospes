@@ -24,7 +24,7 @@ export default function BannerCarousel() {
       {/* Overlay de gradiente suave apenas na parte direita */}
       <div className="absolute inset-y-0 right-0 w-1/2 bg-gradient-to-l from-emerald-400/40 to-transparent pointer-events-none rounded-l-3xl z-0" />
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid xl:grid-cols-2 gap-8 items-center">
           {/* Logo em destaque */}
           <div className="flex items-center justify-center">
             <div className="bg-white rounded-3xl p-8 shadow-2xl flex items-center justify-center border-2 border-emerald-200">
@@ -42,7 +42,7 @@ export default function BannerCarousel() {
               A Prospés é o Canal de Vendas Oficial da Decreína para Profissionais
             </div>
 
-            <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight">Decreína</h3>
+            <h3 className="text-4xl xl:text-5xl font-extrabold tracking-tight">Decreína</h3>
 
             <p className="text-base text-white/90 leading-relaxed max-w-xl">
               Nossa linha profissional reúne produtos de alta performance para hidratação, renovação, reparação e proteção da pele e das unhas, oferecendo um ciclo de cuidado completo, com resultados visíveis, segurança e praticidade.

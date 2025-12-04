@@ -14,11 +14,11 @@ export default function CTA() {
     <section className="py-20 bg-gradient-to-br from-teal-600 to-cyan-600">
       <div className="max-w-7xl mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center text-white space-y-8">
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+          <h2 className="text-4xl xl:text-5xl font-bold leading-tight">
             Cuide melhor de cada paciente
           </h2>
 
-          <p className="text-xl md:text-2xl text-teal-50">
+          <p className="text-xl xl:text-2xl text-teal-50">
             Com produtos profissionais reconhecidos pela comunidade da podologia
           </p>
 

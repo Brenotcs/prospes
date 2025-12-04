@@ -27,7 +27,7 @@ export default function FAQ() {
     <section className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
       <div className="max-w-4xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">
             Perguntas Frequentes
           </h2>
           <p className="text-xl text-gray-600">

@@ -26,7 +26,7 @@ export default function Stats() {
     <section className="py-20 bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold mb-4">
             Números que comprovam a confiança
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -34,7 +34,7 @@ export default function Stats() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid xl:grid-cols-3 gap-8">
           {stats.map((stat, index) => {
             const Icon = stat.icon;
             return (

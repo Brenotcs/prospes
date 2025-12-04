@@ -133,7 +133,7 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
   return (
     <>
       {/* Mobile: Carrossel */}
-      <div className="md:hidden relative mb-8">
+      <div className="xl:hidden relative mb-8">
         <div className="relative overflow-hidden">
           <div 
             ref={containerRef}
@@ -190,7 +190,7 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
 
       {/* Desktop: Grid ou Carousel */}
       {hasMoreThan3 ? (
-        <div className="hidden md:block relative">
+        <div className="hidden xl:block relative">
           <div 
             ref={desktopContainerRef}
             className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth cursor-grab active:cursor-grabbing select-none"
@@ -229,7 +229,7 @@ function CategoryCarousel({ categoryProducts }: { categoryProducts: any[] }) {
           )}
         </div>
       ) : (
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="hidden xl:grid xl:grid-cols-2 xl:grid-cols-3 gap-8">
           {categoryProducts.map((product, index) => (
             <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
               <ProductCard product={product} />
@@ -246,7 +246,7 @@ export default function Catalog() {
     <section id="catalogo" className="py-20 bg-white scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">
             Catálogo Completo por Categoria
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">

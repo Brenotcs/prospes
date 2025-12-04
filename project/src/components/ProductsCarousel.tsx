@@ -101,13 +101,13 @@ export default function ProductsCarousel() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
           <div className="flex flex-col justify-center items-center mb-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            <h2 className="text-4xl xl:text-5xl font-bold text-gray-900">
               Produtos
             </h2>
             <img
               src={LogoDecreina}
               alt="Logo Decreína"
-              className="mt-1 h-16 md:h-20 lg:h-32 w-auto object-contain"
+              className="mt-1 h-16 xl:h-20 xl:h-32 w-auto object-contain"
             />
           </div>
           
@@ -141,7 +141,7 @@ export default function ProductsCarousel() {
                   <div 
                     key={product.id} 
                     // Dimenões calculadas para que 3 caibam e o resto empurre
-                    className="flex-shrink-0 w-full lg:w-1/3 px-4" 
+                    className="flex-shrink-0 w-full xl:w-1/3 px-4" 
                   >
                     <ProductCard product={product} priority={idx < 4} />
                   </div>

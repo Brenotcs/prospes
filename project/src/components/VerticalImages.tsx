@@ -5,8 +5,8 @@ import img3 from '../assets/verticais/IMG_0323.jpg';
 export default function VerticalImages() {
   return (
     <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-3 gap-4 md:gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 xl:px-8">
+        <div className="grid grid-cols-3 gap-4 xl:gap-8">
           <div className="flex justify-center">
             <img
               src={img1}

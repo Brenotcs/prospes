@@ -26,7 +26,7 @@ export default function Segmentation() {
     <section className="py-20 bg-gradient-to-br from-teal-600 to-cyan-700 text-white">
       <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold mb-4">
             Feito para quem exige resultado real
           </h2>
           <p className="text-xl text-teal-100 max-w-2xl mx-auto">
@@ -34,7 +34,7 @@ export default function Segmentation() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid xl:grid-cols-3 gap-8">
           {audiences.map((audience, index) => {
             const Icon = audience.icon;
             return (

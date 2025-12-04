@@ -44,8 +44,8 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           decoding="async"
           fetchPriority={priority ? "high" : "auto"}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity"></div>
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 md:opacity-0 transition-opacity duration-200">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 xl:opacity-0 transition-opacity"></div>
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 xl:opacity-0 transition-opacity duration-200">
           <button
             aria-label={`Mais informações sobre ${product.name}`}
             onClick={handleTouchStart}

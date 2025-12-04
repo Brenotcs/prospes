@@ -29,7 +29,7 @@ export default function Journey() {
     <section className="py-20 bg-white">
       <div ref={ref} className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">
             Como entregar resultado real em cada atendimento
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ export default function Journey() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid xl:grid-cols-3 gap-8">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (

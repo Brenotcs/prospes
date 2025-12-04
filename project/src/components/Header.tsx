@@ -119,7 +119,7 @@ export default function Header() {
                 />
               </a>
 
-              <nav className="hidden md:flex items-center gap-8 mx-auto"> 
+              <nav className="hidden xl:flex items-center gap-8 mx-auto"> 
                 {/* PRODUTOS */}
                 <a 
                   href="#produtos" 
@@ -172,7 +172,7 @@ export default function Header() {
                 {/* Botão de Menu Mobile */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="md:hidden text-gray-200 hover:text-teal-400 transition"
+                  className="xl:hidden text-gray-200 hover:text-teal-400 transition"
                   aria-label="Toggle menu"
                 >
                   {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -193,7 +193,7 @@ export default function Header() {
 
             {/* Menu Mobile Dropdown */}
             <div 
-              className={`md:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
+              className={`xl:hidden bg-slate-900/95 backdrop-blur-md border-t border-white/10 shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
                 mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
               }`}
             >

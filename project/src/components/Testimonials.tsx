@@ -29,7 +29,7 @@ export default function Testimonials() {
     <section id="depoimentos" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">
             Profissionais que confiam na Decreína
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -37,7 +37,7 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid xl:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}

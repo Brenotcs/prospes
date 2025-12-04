@@ -56,14 +56,14 @@ export default function Products() {
         <div className="text-center mb-16 animate-fadeInUp">
           
           <div className="flex flex-col justify-center items-center mb-4">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+            <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-2">
               Produtos Mais Vendidos
             </h2>
 
             <img
               src={LogoDecreina}
               alt="Logo Decreína"
-              className="mt-1 h-16 md:h-20 lg:h-24 w-auto object-contain"
+              className="mt-1 h-16 xl:h-20 xl:h-24 w-auto object-contain"
             />
           </div>
           
@@ -73,7 +73,7 @@ export default function Products() {
         </div>
 
         {/* Mobile: Carrossel */}
-        <div className="md:hidden relative mb-8">
+        <div className="xl:hidden relative mb-8">
           <div className="relative overflow-hidden">
             <div 
               ref={containerRef}
@@ -129,7 +129,7 @@ export default function Products() {
         </div>
 
         {/* Desktop: Grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="hidden xl:grid xl:grid-cols-2 xl:grid-cols-3 gap-8">
           {featuredProducts.map((product, index) => (
             <div key={product.id} className="animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
               <ProductCard product={product} />

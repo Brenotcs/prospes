@@ -108,7 +108,9 @@ export default function Contato() {
         console.error('Erro ao salvar no Supabase:', supabaseError);
       }
 
-      // 2. Enviar para Make.com → Reev
+      // 2. Enviar para Make.com → Reev (OPCIONAL - desabilitado temporariamente)
+      // Descomente quando a API do Reev estiver configurada corretamente
+      /*
       const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
       
       if (webhookUrl) {
@@ -132,6 +134,7 @@ export default function Contato() {
           console.error('Erro no webhook:', webhookError);
         }
       }
+      */
 
       setStatus('success');
       
@@ -167,7 +170,7 @@ export default function Contato() {
     <section id="contato" className="py-20 scroll-mt-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-10 animate-fadeInUp">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Fale Conosco</h2>
+          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">Fale Conosco</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Entre em contato para dúvidas, suporte ou informações sobre nossos produtos.</p>
         </div>
 
@@ -175,7 +178,7 @@ export default function Contato() {
           <h3 className="text-2xl font-semibold mb-6 text-center">Envie sua mensagem</h3>
           
           <form onSubmit={handleSubmit} noValidate>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
               {/* Lado esquerdo */}
               <div className="space-y-4">
                 <div>
@@ -317,7 +320,7 @@ export default function Contato() {
               <button
                 type="submit"
                 disabled={status === 'sending'}
-                className="w-full md:w-auto bg-slate-900 text-white rounded-md px-8 py-3 font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r hover:from-slate-900 hover:to-sky-500 hover:shadow-xl active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full xl:w-auto bg-slate-900 text-white rounded-md px-8 py-3 font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r hover:from-slate-900 hover:to-sky-500 hover:shadow-xl active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {status === 'sending' ? 'Enviando...' : 'Enviar Mensagem'}
               </button>
