@@ -47,7 +47,7 @@ export default function Footer() {
                   onClick={(e) => handleNavClick(e, 'produtos')} 
                   className="hover:text-teal-500 transition"
                 >
-                  Produtos
+                  Mais Vendidos
                 </a>
               </li>
               <li>
@@ -61,20 +61,29 @@ export default function Footer() {
               </li>
               <li>
                 <a 
+                  href="#depoimentos" 
+                  onClick={(e) => handleNavClick(e, 'depoimentos')} 
+                  className="hover:text-teal-500 transition"
+                >
+                  Depoimentos
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="#catalogo" 
+                  onClick={(e) => handleNavClick(e, 'catalogo')} 
+                  className="hover:text-teal-500 transition"
+                >
+                  Catálogo
+                </a>
+              </li>
+              <li>
+                <a 
                   href="#contato" 
                   onClick={(e) => handleNavClick(e, 'contato')} 
                   className="hover:text-teal-500 transition"
                 >
                   Contato
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="#feedback" 
-                  onClick={(e) => handleNavClick(e, 'feedback')} 
-                  className="hover:text-teal-500 transition"
-                >
-                  Feedbacks
                 </a>
               </li>
             </ul>
