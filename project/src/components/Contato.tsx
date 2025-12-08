@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react';
-import { CheckCircle } from 'lucide-react';
+import { useState } from 'react';
+import { AlertCircle, ArrowRight, CheckCircle } from 'lucide-react';
 
 type FormState = {
+  tipoUsuario: string;
   nome: string;
   sobrenome: string;
-  empresa: string;
-  email: string;
   whatsapp: string;
+  email: string;
+  empresa: string;
   cidade: string;
   uf: string;
-  perfilProfissional: string;
-  perfilOutros: string;
-  principaisServicos: string;
 };
 
 const ESTADOS_BRASIL = [
@@ -20,85 +18,95 @@ const ESTADOS_BRASIL = [
   'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
 ];
 
-const PERFIS_PROFISSIONAIS = [
-  'Sou podóloga',
-  'Sou manicure',
-  'Sou esteticista',
-  'Outros…'
-];
-
 function validateEmail(email: string) {
   return /^\S+@\S+\.\S+$/.test(email);
 }
 
 export default function Contato() {
+  const [etapa, setEtapa] = useState<1 | 2>(1);
   const [form, setForm] = useState<FormState>({
+    tipoUsuario: '',
     nome: '',
     sobrenome: '',
-    empresa: '',
-    email: '',
     whatsapp: '',
+    email: '',
+    empresa: '',
     cidade: '',
-    uf: '',
-    perfilProfissional: '',
-    perfilOutros: '',
-    principaisServicos: ''
+    uf: ''
   });
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [showWarning, setShowWarning] = useState(false);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
     setErrors(prev => ({ ...prev, [name]: undefined }));
+
+    // Mostrar aviso quando selecionar consumidor final ou estudante
+    if (name === 'tipoUsuario' && (value === 'consumidor' || value === 'estudante')) {
+      setShowWarning(true);
+    } else if (name === 'tipoUsuario') {
+      setShowWarning(false);
+    }
   }
 
-  function validate() {
+  function validateEtapa1() {
     const nextErrors: Partial<Record<keyof FormState, string>> = {};
+    
+    if (!form.tipoUsuario) nextErrors.tipoUsuario = 'Selecione uma opção.';
     if (!form.nome.trim()) nextErrors.nome = 'Nome é obrigatório.';
     if (!form.sobrenome.trim()) nextErrors.sobrenome = 'Sobrenome é obrigatório.';
-    if (!form.email.trim()) nextErrors.email = 'Email é obrigatório.';
-    else if (!validateEmail(form.email)) nextErrors.email = 'Email inválido.';
     if (!form.whatsapp.trim()) nextErrors.whatsapp = 'WhatsApp é obrigatório.';
-    if (!form.cidade.trim()) nextErrors.cidade = 'Cidade é obrigatória.';
-    if (!form.uf) nextErrors.uf = 'UF é obrigatória.';
-    if (!form.perfilProfissional) nextErrors.perfilProfissional = 'Perfil profissional é obrigatório.';
-    if (form.perfilProfissional === 'Outros…' && !form.perfilOutros.trim()) {
-      nextErrors.perfilOutros = 'Por favor, especifique seu perfil profissional.';
-    }
-    if (!form.principaisServicos.trim()) nextErrors.principaisServicos = 'Principais serviços é obrigatório.';
 
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
   }
 
+  function validateEtapa2() {
+    const nextErrors: Partial<Record<keyof FormState, string>> = {};
+    
+    if (!form.email.trim()) nextErrors.email = 'Email é obrigatório.';
+    else if (!validateEmail(form.email)) nextErrors.email = 'Email inválido.';
+    if (!form.empresa.trim()) nextErrors.empresa = 'Empresa ou Instagram é obrigatório.';
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  }
+
+  function handleContinuar(e: React.FormEvent) {
+    e.preventDefault();
+    
+    // Bloquear consumidor final
+    if (form.tipoUsuario === 'consumidor') {
+      return;
+    }
+
+    if (!validateEtapa1()) return;
+    setEtapa(2);
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!validate()) return;
+    if (!validateEtapa2()) return;
 
     setStatus('sending');
 
     try {
-      // Preparar dados para salvar
-      const nomeCompleto = `${form.nome} ${form.sobrenome}`.trim();
-      const perfilFinal = form.perfilProfissional === 'Outros…' 
-        ? form.perfilOutros 
-        : form.perfilProfissional;
-
       const leadData = {
-        name: nomeCompleto,
+        name: `${form.nome} ${form.sobrenome}`.trim(),
         email: form.email,
         phone: form.whatsapp,
         company: form.empresa,
         cidade: form.cidade,
         uf: form.uf,
-        perfil_profissional: perfilFinal,
-        principais_servicos: form.principaisServicos,
+        tipo_usuario: form.tipoUsuario,
+        perfil_profissional: 'Profissional', // Fixo conforme especificação
       };
 
       console.log('Enviando lead:', leadData);
 
-      // 1. Salvar no Supabase (backup)
+      // Salvar no Supabase
       const { supabase } = await import('../lib/supabase');
       const { error: supabaseError } = await supabase
         .from('leads')
@@ -106,237 +114,309 @@ export default function Contato() {
 
       if (supabaseError) {
         console.error('Erro ao salvar no Supabase:', supabaseError);
+        throw supabaseError;
       }
 
-      // 2. Enviar para Make.com → Reev (OPCIONAL - desabilitado temporariamente)
-      // Descomente quando a API do Reev estiver configurada corretamente
-      /*
-      const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
-      
-      if (webhookUrl) {
-        try {
-          const webhookResponse = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              ...leadData,
-              timestamp: new Date().toISOString(),
-              source: 'website_contact_form'
-            }),
-          });
-
-          if (!webhookResponse.ok) {
-            console.error('Erro ao enviar para webhook:', webhookResponse.status);
-          } else {
-            console.log('Lead enviado para Make/Reev com sucesso!');
-          }
-        } catch (webhookError) {
-          console.error('Erro no webhook:', webhookError);
-        }
-      }
-      */
-
+      console.log('Lead salvo com sucesso!');
       setStatus('success');
       
-      // Limpar formulário após sucesso
+      // Resetar formulário
       setForm({
+        tipoUsuario: '',
         nome: '',
         sobrenome: '',
-        empresa: '',
-        email: '',
         whatsapp: '',
+        email: '',
+        empresa: '',
         cidade: '',
-        uf: '',
-        perfilProfissional: '',
-        perfilOutros: '',
-        principaisServicos: ''
+        uf: ''
       });
-
-      // Após 2 segundos, rolar para o topo da página
-      setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        // Resetar o status após rolar
-        setTimeout(() => setStatus('idle'), 1000);
-      }, 2000);
+      setEtapa(1);
     } catch (error) {
       console.error('Erro ao enviar formulário:', error);
       setStatus('error');
     }
   }
 
-  const showPerfilOutros = form.perfilProfissional === 'Outros…';
+  function voltar() {
+    setEtapa(1);
+    setErrors({});
+  }
+
+  const tipoUsuarioLabel = form.tipoUsuario === 'profissional' ? 'Profissional' :
+                           form.tipoUsuario === 'estudante' ? 'Estudante' : '';
 
   return (
-    <section id="contato" className="py-20 scroll-mt-16">
-      <div className="max-w-7xl mx-auto px-4">
+    <section id="contato" className="py-20 scroll-mt-16 bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Header */}
         <div className="text-center mb-10 animate-fadeInUp">
-          <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">Fale Conosco</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Entre em contato para dúvidas, suporte ou informações sobre nossos produtos.</p>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            {etapa === 1 ? 'Acesso exclusivo para profissionais' : 'Complete seu cadastro'}
+          </h2>
+          {etapa === 1 && (
+            <p className="text-lg text-gray-600">*Informe seus dados para continuar.</p>
+          )}
         </div>
 
-        <div className="max-w-6xl mx-auto animate-fadeInUp">
-          <h3 className="text-2xl font-semibold mb-6 text-center">Envie sua mensagem</h3>
-          
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-              {/* Lado esquerdo */}
-              <div className="space-y-4">
-                <div>
-                  <input
-                    name="nome"
-                    value={form.nome}
-                    onChange={handleChange}
-                    placeholder="Nome"
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.nome ? 'border-red-400' : 'border-gray-200'}`}
-                  />
-                  {errors.nome && <p className="text-red-500 text-sm mt-1">{errors.nome}</p>}
-                </div>
+        {/* Indicador de etapas */}
+        <div className="flex items-center justify-center mb-8 gap-4">
+          <div className={`flex items-center gap-2 ${etapa === 1 ? 'text-teal-600 font-semibold' : 'text-gray-400'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${etapa === 1 ? 'bg-teal-600 text-white' : 'bg-gray-300 text-gray-600'}`}>
+              1
+            </div>
+            <span>Acesso</span>
+          </div>
+          <div className="w-12 h-0.5 bg-gray-300"></div>
+          <div className={`flex items-center gap-2 ${etapa === 2 ? 'text-teal-600 font-semibold' : 'text-gray-400'}`}>
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${etapa === 2 ? 'bg-teal-600 text-white' : 'bg-gray-300 text-gray-600'}`}>
+              2
+            </div>
+            <span>Dados</span>
+          </div>
+        </div>
 
+        {/* Formulário */}
+        <div className="bg-white rounded-2xl shadow-lg p-8 animate-fadeInUp">
+          {etapa === 1 ? (
+            // ETAPA 1
+            <form onSubmit={handleContinuar} noValidate>
+              <div className="space-y-6">
+                {/* Tipo de usuário */}
                 <div>
-                  <input
-                    name="sobrenome"
-                    value={form.sobrenome}
-                    onChange={handleChange}
-                    placeholder="Sobrenome"
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.sobrenome ? 'border-red-400' : 'border-gray-200'}`}
-                  />
-                  {errors.sobrenome && <p className="text-red-500 text-sm mt-1">{errors.sobrenome}</p>}
-                </div>
-
-                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                  <label htmlFor="empresa" className="block text-sm font-semibold text-gray-800 mb-1">
-                    Empresa <span className="text-red-500">*</span>
+                  <label className="block text-gray-700 font-semibold mb-3">
+                    Você é profissional da área? *
                   </label>
-                  <p className="text-xs text-gray-500 mb-2 italic">Campo obrigatório</p>
-                  <p className="text-sm text-gray-700 mb-3 leading-relaxed">
-                    Se não tiver uma clínica ou salão, coloque aqui seu perfil do Instagram!
-                  </p>
-                  <input
-                    id="empresa"
-                    name="empresa"
-                    value={form.empresa}
-                    onChange={handleChange}
-                    placeholder="Nome da empresa ou @instagram"
-                    className={`w-full rounded-md border px-4 py-2.5 bg-white text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-teal-400 transition-all ${errors.empresa ? 'border-red-400' : 'border-gray-300'}`}
-                  />
-                  {errors.empresa && <p className="text-red-500 text-sm mt-2">{errors.empresa}</p>}
+                  <div className="space-y-3">
+                    <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-teal-500 transition">
+                      <input
+                        type="radio"
+                        name="tipoUsuario"
+                        value="profissional"
+                        checked={form.tipoUsuario === 'profissional'}
+                        onChange={handleChange}
+                        className="w-5 h-5 text-teal-600"
+                      />
+                      <span className="ml-3 text-gray-700">Sim, sou profissional</span>
+                    </label>
+
+                    <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-amber-500 transition">
+                      <input
+                        type="radio"
+                        name="tipoUsuario"
+                        value="estudante"
+                        checked={form.tipoUsuario === 'estudante'}
+                        onChange={handleChange}
+                        className="w-5 h-5 text-amber-600"
+                      />
+                      <span className="ml-3 text-gray-700">Sou estudante</span>
+                    </label>
+
+                    <label className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:border-red-500 transition">
+                      <input
+                        type="radio"
+                        name="tipoUsuario"
+                        value="consumidor"
+                        checked={form.tipoUsuario === 'consumidor'}
+                        onChange={handleChange}
+                        className="w-5 h-5 text-red-600"
+                      />
+                      <span className="ml-3 text-gray-700">Sou consumidor final</span>
+                    </label>
+                  </div>
+                  {errors.tipoUsuario && <p className="text-red-500 text-sm mt-2">{errors.tipoUsuario}</p>}
                 </div>
 
+                {/* Avisos */}
+                {showWarning && form.tipoUsuario === 'consumidor' && (
+                  <div className="bg-red-50 border-l-4 border-red-500 p-4 rounded flex items-start gap-3">
+                    <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+                    <div>
+                      <p className="text-red-800 font-medium">
+                        *Nosso canal é de uso exclusivo para profissionais.
+                      </p>
+                      <p className="text-red-700 text-sm mt-1">
+                        Para compras como cliente final, acesse:{' '}
+                        <a href="https://decreina.com.br/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">
+                          https://decreina.com.br/
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {showWarning && form.tipoUsuario === 'estudante' && (
+                  <div className="bg-amber-50 border-l-4 border-amber-500 p-4 rounded flex items-start gap-3">
+                    <AlertCircle className="text-amber-500 flex-shrink-0 mt-0.5" size={20} />
+                    <div>
+                      <p className="text-amber-800 font-medium">
+                        *Nosso canal é exclusivo para profissionais em atuação.
+                      </p>
+                      <p className="text-amber-700 text-sm mt-1">
+                        Caso ainda não atue, o atendimento pode ser limitado.
+                        Para compras como cliente final, acesse:{' '}
+                        <a href="https://decreina.com.br/" target="_blank" rel="noopener noreferrer" className="underline font-semibold">
+                          https://decreina.com.br/
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Campos básicos */}
+                {form.tipoUsuario && form.tipoUsuario !== 'consumidor' && (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-gray-700 font-medium mb-2">Nome *</label>
+                        <input
+                          name="nome"
+                          value={form.nome}
+                          onChange={handleChange}
+                          placeholder="Seu nome"
+                          className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.nome ? 'border-red-400' : 'border-gray-300'}`}
+                        />
+                        {errors.nome && <p className="text-red-500 text-sm mt-1">{errors.nome}</p>}
+                      </div>
+
+                      <div>
+                        <label className="block text-gray-700 font-medium mb-2">Sobrenome *</label>
+                        <input
+                          name="sobrenome"
+                          value={form.sobrenome}
+                          onChange={handleChange}
+                          placeholder="Seu sobrenome"
+                          className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.sobrenome ? 'border-red-400' : 'border-gray-300'}`}
+                        />
+                        {errors.sobrenome && <p className="text-red-500 text-sm mt-1">{errors.sobrenome}</p>}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-gray-700 font-medium mb-2">WhatsApp *</label>
+                      <input
+                        name="whatsapp"
+                        value={form.whatsapp}
+                        onChange={handleChange}
+                        placeholder="(00) 00000-0000"
+                        className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.whatsapp ? 'border-red-400' : 'border-gray-300'}`}
+                      />
+                      {errors.whatsapp && <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>}
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full bg-teal-600 text-white rounded-lg px-6 py-3 font-semibold transition-all duration-300 hover:bg-teal-700 hover:shadow-lg flex items-center justify-center gap-2"
+                    >
+                      Continuar
+                      <ArrowRight size={20} />
+                    </button>
+                  </>
+                )}
+              </div>
+            </form>
+          ) : (
+            // ETAPA 2
+            <form onSubmit={handleSubmit} noValidate>
+              <div className="space-y-6">
+
                 <div>
+                  <label className="block text-gray-700 font-medium mb-2">Email *</label>
                   <input
                     name="email"
                     type="email"
                     value={form.email}
                     onChange={handleChange}
-                    placeholder="Email"
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.email ? 'border-red-400' : 'border-gray-200'}`}
+                    placeholder="seu@email.com"
+                    className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.email ? 'border-red-400' : 'border-gray-300'}`}
                   />
                   {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                 </div>
 
                 <div>
+                  <label className="block text-gray-700 font-medium mb-2">Perfil profissional</label>
                   <input
-                    name="whatsapp"
-                    value={form.whatsapp}
-                    onChange={handleChange}
-                    placeholder="WhatsApp"
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.whatsapp ? 'border-red-400' : 'border-gray-200'}`}
+                    type="text"
+                    value="Profissional"
+                    disabled
+                    className="w-full rounded-lg border border-gray-300 bg-gray-100 px-4 py-3 text-gray-600 cursor-not-allowed"
                   />
-                  {errors.whatsapp && <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>}
+                  <p className="text-gray-500 text-sm mt-1">Campo preenchido automaticamente</p>
                 </div>
 
                 <div>
+                  <label className="block text-gray-700 font-medium mb-2">Empresa ou Instagram profissional *</label>
                   <input
-                    name="cidade"
-                    value={form.cidade}
+                    name="empresa"
+                    value={form.empresa}
                     onChange={handleChange}
-                    placeholder="Cidade"
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.cidade ? 'border-red-400' : 'border-gray-200'}`}
+                    placeholder="Ex: Clínica ou @instagram"
+                    className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.empresa ? 'border-red-400' : 'border-gray-300'}`}
                   />
-                  {errors.cidade && <p className="text-red-500 text-sm mt-1">{errors.cidade}</p>}
+                  {errors.empresa && <p className="text-red-500 text-sm mt-1">{errors.empresa}</p>}
                 </div>
 
-                <div>
-                  <select
-                    name="uf"
-                    value={form.uf}
-                    onChange={handleChange}
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.uf ? 'border-red-400' : 'border-gray-200'}`}
-                  >
-                    <option value="">UF</option>
-                    {ESTADOS_BRASIL.map(estado => (
-                      <option key={estado} value={estado}>{estado}</option>
-                    ))}
-                  </select>
-                  {errors.uf && <p className="text-red-500 text-sm mt-1">{errors.uf}</p>}
-                </div>
-              </div>
-
-              {/* Lado direito */}
-              <div className="space-y-4">
-                <div>
-                  <select
-                    name="perfilProfissional"
-                    value={form.perfilProfissional}
-                    onChange={handleChange}
-                    className={`w-full rounded-md border px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilProfissional ? 'border-red-400' : 'border-gray-200'}`}
-                  >
-                    <option value="">Perfil profissional</option>
-                    {PERFIS_PROFISSIONAIS.map(perfil => (
-                      <option key={perfil} value={perfil}>{perfil}</option>
-                    ))}
-                  </select>
-                  {errors.perfilProfissional && <p className="text-red-500 text-sm mt-1">{errors.perfilProfissional}</p>}
-                </div>
-
-                {showPerfilOutros && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
+                    <label className="block text-gray-700 font-medium mb-2">Cidade</label>
                     <input
-                      name="perfilOutros"
-                      value={form.perfilOutros}
+                      name="cidade"
+                      value={form.cidade}
                       onChange={handleChange}
-                      placeholder="Especifique seu perfil profissional"
-                      className={`w-full rounded-md border px-4 py-2 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.perfilOutros ? 'border-red-400' : 'border-gray-200'}`}
+                      placeholder="Sua cidade"
+                      className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
                     />
-                    {errors.perfilOutros && <p className="text-red-500 text-sm mt-1">{errors.perfilOutros}</p>}
                   </div>
-                )}
 
-                <div>
-                  <textarea
-                    name="principaisServicos"
-                    value={form.principaisServicos}
-                    onChange={handleChange}
-                    placeholder="Principais serviços - Costumo trabalhar principalmente com casos de…"
-                    rows={8}
-                    className={`w-full rounded-md border px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-slate-300 ${errors.principaisServicos ? 'border-red-400' : 'border-gray-200'}`}
-                  />
-                  {errors.principaisServicos && <p className="text-red-500 text-sm mt-1">{errors.principaisServicos}</p>}
+                  <div>
+                    <label className="block text-gray-700 font-medium mb-2">UF</label>
+                    <select
+                      name="uf"
+                      value={form.uf}
+                      onChange={handleChange}
+                      className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                    >
+                      <option value="">Selecione</option>
+                      {ESTADOS_BRASIL.map(estado => (
+                        <option key={estado} value={estado}>{estado}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={voltar}
+                    className="px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition"
+                  >
+                    Voltar
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={status === 'sending'}
+                    className="flex-1 bg-teal-600 text-white rounded-lg px-6 py-3 font-semibold transition-all duration-300 hover:bg-teal-700 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {status === 'sending' ? 'Enviando...' : 'Finalizar cadastro'}
+                  </button>
                 </div>
               </div>
-            </div>
+            </form>
+          )}
 
-            <div className="mt-8 flex flex-col items-center gap-4">
-              <button
-                type="submit"
-                disabled={status === 'sending'}
-                className="w-full xl:w-auto bg-slate-900 text-white rounded-md px-8 py-3 font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-gradient-to-r hover:from-slate-900 hover:to-sky-500 hover:shadow-xl active:scale-100 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                {status === 'sending' ? 'Enviando...' : 'Enviar Mensagem'}
-              </button>
-
-              {status === 'success' && (
-                <div className="flex items-center gap-2 text-green-600 animate-fadeInUp">
-                  <CheckCircle className="w-8 h-8 animate-bounce" />
-                  <span className="font-semibold">Mensagem enviada com sucesso!</span>
-                </div>
-              )}
-              
-              {status === 'error' && (
-                <p className="text-red-600 text-center">Erro ao enviar. Tente novamente.</p>
-              )}
+          {/* Mensagens de status */}
+          {status === 'success' && (
+            <div className="mt-6 bg-green-50 border-l-4 border-green-500 p-4 rounded flex items-center gap-3">
+              <CheckCircle className="text-green-500" size={24} />
+              <p className="text-green-800 font-medium">Cadastro realizado com sucesso!</p>
             </div>
-          </form>
+          )}
+          {status === 'error' && (
+            <div className="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded flex items-center gap-3">
+              <AlertCircle className="text-red-500" size={24} />
+              <p className="text-red-800 font-medium">Erro ao enviar. Tente novamente.</p>
+            </div>
+          )}
         </div>
       </div>
     </section>

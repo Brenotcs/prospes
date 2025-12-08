@@ -51,7 +51,7 @@ export default function About() {
             <div className="absolute inset-0 bg-gradient-to-br from-teal-200 to-cyan-200 rounded-3xl transform rotate-3"></div>
             <div className="relative bg-gradient-to-br from-teal-50 to-cyan-50 rounded-3xl p-12 shadow-xl">
               <div className="text-center space-y-4">
-                <div className="text-6xl font-bold text-teal-600">15+</div>
+                <div className="text-6xl font-bold text-teal-600">25+</div>
                 <p className="text-2xl font-semibold text-gray-900">Anos de experiência</p>
                 <p className="text-gray-600">
                   Dedicados ao desenvolvimento de produtos de excelência para profissionais da podologia

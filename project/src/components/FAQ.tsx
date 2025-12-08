@@ -12,7 +12,7 @@ const faqs = [
   },
   {
     question: "Podem ser usados em qualquer tipo de pele?",
-    answer: "Sim, as fórmulas são seguras para uso profissional em todos os tipos de pele, inclusive as mais sensíveis. Todos os produtos são testados dermatologicamente."
+    answer: "Sim, as fórmulas são seguras para uso profissional em todos os tipos de pele, inclusive as mais sensíveis."
   }
 ];
 
