@@ -8,7 +8,8 @@ drop table if exists leads cascade;
 -- 2. Criar nova tabela com campos atualizados
 create table leads (
   id uuid default gen_random_uuid() primary key,
-  name text not null,
+  nome text not null,
+  sobrenome text not null,
   email text not null,
   phone text not null,
   company text not null,
@@ -43,7 +44,8 @@ create policy "Apenas autenticados podem ler leads"
 
 -- 7. Comentários nas colunas
 comment on table leads is 'Leads capturados pelo formulário de contato (nova estrutura 2 etapas)';
-comment on column leads.name is 'Nome completo do lead (nome + sobrenome)';
+comment on column leads.nome is 'Nome do lead';
+comment on column leads.sobrenome is 'Sobrenome do lead';
 comment on column leads.email is 'Email de contato';
 comment on column leads.phone is 'WhatsApp/Telefone';
 comment on column leads.company is 'Empresa ou Instagram profissional (ex: Clínica ou @instagram)';

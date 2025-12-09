@@ -94,7 +94,8 @@ export default function Contato() {
 
     try {
       const leadData = {
-        name: `${form.nome} ${form.sobrenome}`.trim(),
+        nome: form.nome,
+        sobrenome: form.sobrenome,
         email: form.email,
         phone: form.whatsapp,
         company: form.empresa,
@@ -117,7 +118,9 @@ export default function Contato() {
         throw supabaseError;
       }
 
-      console.log('Lead salvo com sucesso!');
+      console.log('Lead salvo com sucesso no Supabase!');
+      console.log('Webhook será disparado automaticamente pelo Supabase');
+
       setStatus('success');
       
       // Resetar formulário
