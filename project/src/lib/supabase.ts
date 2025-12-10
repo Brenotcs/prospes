@@ -19,9 +19,13 @@ export interface Testimonial {
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-// Se as variáveis de ambiente não estiverem configuradas, cria um cliente mock
-// que não fará requisições reais (útil para desenvolvimento)
-export const supabase = supabaseUrl && supabaseAnonKey
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : createClient('https://placeholder.supabase.co', 'placeholder-key');
+// Debug: verificar se as variáveis estão carregadas
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ ERRO: Variáveis de ambiente do Supabase não configuradas!');
+  console.log('VITE_SUPABASE_URL:', supabaseUrl);
+  console.log('VITE_SUPABASE_ANON_KEY:', supabaseAnonKey ? 'Definida' : 'Indefinida');
+  throw new Error('Variáveis de ambiente do Supabase não configuradas. Configure VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.');
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
