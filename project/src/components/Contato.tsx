@@ -40,7 +40,32 @@ export default function Contato() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    
+    // Formatação especial para WhatsApp
+    if (name === 'whatsapp') {
+      // Remove tudo que não é número
+      const numbers = value.replace(/\D/g, '');
+      
+      // Limita a 11 dígitos (DDD + 9 dígitos)
+      const limited = numbers.slice(0, 11);
+      
+      // Formata: (00) 00000-0000
+      let formatted = limited;
+      if (limited.length > 10) {
+        formatted = limited.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      } else if (limited.length > 6) {
+        formatted = limited.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+      } else if (limited.length > 2) {
+        formatted = limited.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+      } else if (limited.length > 0) {
+        formatted = limited.replace(/(\d{0,2})/, '($1');
+      }
+      
+      setForm(prev => ({ ...prev, [name]: formatted }));
+    } else {
+      setForm(prev => ({ ...prev, [name]: value }));
+    }
+    
     setErrors(prev => ({ ...prev, [name]: undefined }));
 
     // Mostrar aviso quando selecionar consumidor final ou estudante
@@ -57,7 +82,16 @@ export default function Contato() {
     if (!form.tipoUsuario) nextErrors.tipoUsuario = 'Selecione uma opção.';
     if (!form.nome.trim()) nextErrors.nome = 'Nome é obrigatório.';
     if (!form.sobrenome.trim()) nextErrors.sobrenome = 'Sobrenome é obrigatório.';
-    if (!form.whatsapp.trim()) nextErrors.whatsapp = 'WhatsApp é obrigatório.';
+    
+    // Validação de WhatsApp
+    if (!form.whatsapp.trim()) {
+      nextErrors.whatsapp = 'WhatsApp é obrigatório.';
+    } else {
+      const numbers = form.whatsapp.replace(/\D/g, '');
+      if (numbers.length !== 11) {
+        nextErrors.whatsapp = 'WhatsApp deve ter exatamente 11 dígitos (DDD + número).';
+      }
+    }
 
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -298,10 +332,12 @@ export default function Contato() {
                     <div>
                       <label className="block text-gray-700 font-medium mb-2">WhatsApp *</label>
                       <input
+                        type="tel"
                         name="whatsapp"
                         value={form.whatsapp}
                         onChange={handleChange}
                         placeholder="(00) 00000-0000"
+                        maxLength={15}
                         className={`w-full rounded-lg border px-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500 ${errors.whatsapp ? 'border-red-400' : 'border-gray-300'}`}
                       />
                       {errors.whatsapp && <p className="text-red-500 text-sm mt-1">{errors.whatsapp}</p>}
