@@ -127,11 +127,15 @@ export default function Contato() {
     setStatus('sending');
 
     try {
+      // Remove formatação e adiciona código do Brasil (55)
+      const phoneNumbers = form.whatsapp.replace(/\D/g, '');
+      const phoneWithCountryCode = `55${phoneNumbers}`;
+      
       const leadData = {
         nome: form.nome,
         sobrenome: form.sobrenome,
         email: form.email,
-        phone: form.whatsapp,
+        phone: phoneWithCountryCode,
         company: form.empresa,
         cidade: form.cidade,
         uf: form.uf,
