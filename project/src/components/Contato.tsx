@@ -140,24 +140,40 @@ export default function Contato() {
         cidade: form.cidade,
         uf: form.uf,
         tipo_usuario: form.tipoUsuario,
-        perfil_profissional: 'Profissional', // Fixo conforme especificação
+        perfil_profissional: 'Profissional',
+        timestamp: new Date().toISOString(),
+        source: 'website_contact_form'
       };
 
-      console.log('Enviando lead:', leadData);
+      console.log('=== INICIANDO ENVIO ===');
+      console.log('Dados do lead:', leadData);
 
-      // Salvar no Supabase
-      const { supabase } = await import('../lib/supabase');
-      const { error: supabaseError } = await supabase
-        .from('leads')
-        .insert([leadData]);
-
-      if (supabaseError) {
-        console.error('Erro ao salvar no Supabase:', supabaseError);
-        throw supabaseError;
+      // Enviar direto para webhook do Zapier
+      const webhookUrl = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
+      
+      console.log('URL do webhook:', webhookUrl ? 'Configurada' : 'NÃO configurada');
+      
+      if (!webhookUrl) {
+        console.error('VITE_ZAPIER_WEBHOOK_URL não configurada no arquivo .env');
+        alert('Configuração incorreta. Entre em contato com o suporte.');
+        setStatus('error');
+        return;
       }
 
-      console.log('Lead salvo com sucesso no Supabase!');
-      console.log('Webhook será disparado automaticamente pelo Supabase');
+      console.log('Enviando requisição para Zapier...');
+
+      // Zapier webhooks funcionam com no-cors mode
+      await fetch(webhookUrl, {
+        method: 'POST',
+        mode: 'no-cors', // Necessário para evitar erro de CORS
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(leadData),
+      });
+
+      console.log('✅ Lead enviado com sucesso para o Zapier!');
+      console.log('Verifique no Zapier > Zap History se o dado chegou');
 
       setStatus('success');
       
