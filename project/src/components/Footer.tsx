@@ -162,8 +162,14 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 text-center text-sm">
+        <div className="border-t border-gray-800 pt-8 text-center text-sm flex flex-col items-center gap-2">
           <p>&copy; {currentYear} Prospés. Todos os direitos reservados.</p>
+          <a
+            href="/politica-privacidade"
+            className="text-teal-400 hover:underline mt-1"
+          >
+            Política de Privacidade
+          </a>
         </div>
       </div>
     </footer>
