@@ -4,7 +4,7 @@ import BackgroundImg from '../assets/background.jpg';
 
 export default function Hero() {
   const scrollToBanners = () => {
-    const element = document.getElementById('banners');
+    const element = document.getElementById('contato');
     if (element) {
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset;
