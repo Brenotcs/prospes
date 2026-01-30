@@ -2,7 +2,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import BannerCarousel from './components/BannerCarousel';
 import Benefits from './components/Benefits';
-import Testimonials from './components/Testimonials';
+import BeforeAfterSection from './components/Testimonials';
 import Products from './components/Products';
 import Segmentation from './components/Segmentation';
 import Journey from './components/Journey';
@@ -34,8 +34,8 @@ function App() {
       {/* 2. Benefícios Diretos da Decreína (3 Cards) */}
       <Benefits />
       
-      {/* 3. Prova Social I (Depoimentos de Podólogas) */}
-      <Testimonials />
+      {/* 3. Antes e Depois (Resultados Reais) */}
+      <BeforeAfterSection />
       
       {/* 4. Produtos Mais Vendidos (Grid de 4 a 6 itens) */}
       <Products />

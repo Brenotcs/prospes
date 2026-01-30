@@ -1,72 +1,59 @@
-import { Quote, Star } from 'lucide-react';
 
-const testimonials = [
-  {
-    id: 1,
-    quote: "Uso em todos os atendimentos. As pacientes notam a diferença na hora.",
-    author: "Dra. Ana Paula Silva",
-    role: "Podóloga",
-    location: "São Paulo, SP"
-  },
-  {
-    id: 2,
-    quote: "A qualidade dos produtos Decreína eleva o padrão da minha clínica. Resultados visíveis e pacientes satisfeitas.",
-    author: "Carla Mendes",
-    role: "Podóloga",
-    location: "Rio de Janeiro, RJ"
-  },
-  {
-    id: 3,
-    quote: "Desde que comecei a usar a linha Decreína, minha taxa de retorno de clientes aumentou significativamente.",
-    author: "Juliana Santos",
-    role: "Podóloga",
-    location: "Belo Horizonte, MG"
-  }
-];
+import { ClassAttributes, HTMLAttributes } from 'react';
+import { JSX } from 'react/jsx-runtime';
+import { beforeAfterImages } from '../data/beforeAfterImages';
+import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slider';
 
-export default function Testimonials() {
+export default function BeforeAfterSection() {
+
   return (
-    <section id="depoimentos" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
+    <section id="antesedepois" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12 animate-fadeInUp">
           <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">
-            Profissionais que confiam na Decreína
+            Antes e Depois
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Depoimentos de podólogas que usam nossos produtos diariamente
+            Veja resultados reais do uso dos produtos Decreína
           </p>
         </div>
-
-        <div className="grid xl:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={testimonial.id}
-              className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <div className="mb-6">
-                <Quote className="w-12 h-12 text-teal-200" />
+        <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-8">
+          {beforeAfterImages.map((item, idx) => {
+            // Se só houver uma imagem, usa a mesma dos dois lados
+            const beforeImg = item.before || item.after;
+            const afterImg = item.after || item.before;
+            return (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 animate-fadeInUp flex flex-col items-center"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
+                <div className="relative w-full" style={{ maxWidth: 400, minWidth: 250, height: 260 }}>
+                  <ReactCompareSlider
+                    itemOne={<ReactCompareSliderImage src={beforeImg} alt="Antes" style={{ objectFit: 'cover', width: '100%', height: 260 }} />}
+                    itemTwo={<ReactCompareSliderImage src={afterImg} alt="Depois" style={{ objectFit: 'cover', width: '100%', height: 260 }} />}
+                    portrait={false}
+                    className="rounded-xl overflow-hidden w-full"
+                    style={{ width: '100%', height: 260 }}
+                    onlyHandleDraggable
+                    handle={
+                      <div style={{ background: 'white', borderRadius: 999, boxShadow: '0 2px 8px #0002', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <span style={{ fontWeight: 700, fontSize: 18, color: '#666' }}>|||</span>
+                      </div>
+                    }
+                  />
+                  <span className="text-white font-bold text-lg absolute top-3 left-4 drop-shadow pointer-events-none select-none">Antes</span>
+                  <span className="text-white font-bold text-lg absolute top-3 right-4 drop-shadow pointer-events-none select-none">Depois</span>
+                </div>
+                <div className="flex flex-col justify-between h-full w-full">
+                  <p className="text-gray-700 text-center italic text-base mb-8 mt-4">“{item.description}”</p>
+                  <div className="w-full flex justify-center absolute bottom-4 left-0">
+                    <span className="bg-teal-50 text-teal-700 px-4 py-1 rounded-full font-bold text-sm shadow-sm border border-teal-200">{item.name}</span>
+                  </div>
+                </div>
               </div>
-
-              <div className="flex gap-1 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
-
-              <p className="text-gray-700 leading-relaxed mb-6 text-lg italic">
-                "{testimonial.quote}"
-              </p>
-
-              <div className="border-t pt-4">
-                <p className="font-bold text-gray-900 text-lg">
-                  {testimonial.author}
-                </p>
-                <p className="text-teal-600 font-medium">{testimonial.role}</p>
-                <p className="text-sm text-gray-500">{testimonial.location}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
