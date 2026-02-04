@@ -28,7 +28,7 @@ export default function BannerCarousel() {
           {/* Logo em destaque */}
           <div className="flex items-center justify-center">
             <div className="bg-white rounded-3xl p-8 shadow-2xl flex items-center justify-center border-2 border-emerald-200">
-              <img src={LogoDecreina} alt="Logo Decreína" className="w-56 h-auto object-contain" />
+                <img src={LogoDecreina} alt="Logo Decreína" className="w-56 h-auto object-contain" loading="lazy" />
             </div>
           </div>
 

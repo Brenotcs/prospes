@@ -105,7 +105,8 @@ export default function ProductsCarousel() {
               Produtos
             </h2>
             <img
-              src={LogoDecreina}
+                src={LogoDecreina}
+                loading="lazy"
               alt="Logo Decreína"
               className="mt-1 h-16 xl:h-20 xl:h-32 w-auto object-contain"
             />
@@ -137,13 +138,12 @@ export default function ProductsCarousel() {
                 onTouchMove={handleDragMove}
                 onTouchEnd={handleDragEnd}
               >
-                {products.map((product, idx) => (
+                {products.slice(desktopIndex, desktopIndex + desktopWindowSize).map((product, idx) => (
                   <div 
                     key={product.id} 
-                    // Dimenões calculadas para que 3 caibam e o resto empurre
                     className="flex-shrink-0 w-full xl:w-1/3 px-4" 
                   >
-                    <ProductCard product={product} priority={idx < 4} />
+                    <ProductCard product={product} priority={idx === 0} />
                   </div>
                 ))}
               </div>
@@ -200,15 +200,9 @@ export default function ProductsCarousel() {
                 onTouchMove={handleDragMove}
                 onTouchEnd={handleDragEnd}
               >
-                {products.map((product, idx) => (
-                  <div 
-                    key={product.id} 
-                    // Dimenões calculadas para que 1 caiba e o resto empurre
-                    className="flex-shrink-0 w-full px-4" 
-                  >
-                    <ProductCard product={product} priority={idx < 2} />
-                  </div>
-                ))}
+                <div className="flex-shrink-0 w-full px-4">
+                  <ProductCard product={products[mobileIndex]} priority={true} />
+                </div>
               </div>
             </div>
             {/* FIM DO CONTÊINER DE DESLIZAMENTO */}

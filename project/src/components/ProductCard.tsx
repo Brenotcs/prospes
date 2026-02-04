@@ -13,6 +13,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
+    const [imgLoaded, setImgLoaded] = useState(false);
   const [open, setOpen] = useState(false);
   const touchTimeoutRef = useRef<number | null>(null);
 
@@ -37,12 +38,13 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
       {/* Bloco da Imagem: Altura Fixa (h-64) e flex-shrink-0 */}
       <div className="relative overflow-hidden h-64 flex-shrink-0">
         <img
+          loading={priority ? "eager" : "lazy"}
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
-          loading={priority ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={priority ? "high" : "auto"}
+          className={`w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300 ${imgLoaded ? '' : 'blur-md scale-105 bg-gray-200 animate-pulse'}`}
+          onLoad={() => setImgLoaded(true)}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 xl:opacity-0 transition-opacity"></div>
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 xl:opacity-0 transition-opacity duration-200">

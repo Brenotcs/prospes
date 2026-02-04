@@ -26,6 +26,7 @@ export default function Footer() {
               <a href="#" className="flex items-center">
                 <img
                   src={LogoFooter}
+                  loading="lazy"
                   alt="Logo Prospés"
                   className="h-10" 
                 />

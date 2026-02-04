@@ -9,21 +9,24 @@ export default function VerticalImages() {
         <div className="grid grid-cols-3 gap-4 xl:gap-8">
           <div className="flex justify-center">
             <img
-              src={img1}
+                src={img1}
+                loading="lazy"
               alt="Imagem vertical 1"
               className="w-full h-auto object-cover rounded-lg shadow-lg"
             />
           </div>
           <div className="flex justify-center">
             <img
-              src={img2}
+                src={img2}
+                loading="lazy"
               alt="Imagem vertical 2"
               className="w-full h-auto object-cover rounded-lg shadow-lg"
             />
           </div>
           <div className="flex justify-center">
             <img
-              src={img3}
+                src={img3}
+                loading="lazy"
               alt="Imagem vertical 3"
               className="w-full h-auto object-cover rounded-lg shadow-lg"
             />

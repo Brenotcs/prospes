@@ -113,7 +113,8 @@ export default function Header() {
               
               <a href="#" className="flex items-center gap-2">
                 <img 
-                  src={Logo} 
+                    src={Logo} 
+                    loading="lazy"
                   alt="Logo Prospés" 
                   className="h-12"
                 />
