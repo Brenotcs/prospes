@@ -14,12 +14,11 @@ export default function BeforeAfterSection() {
             Antes e Depois
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Veja resultados reais do uso dos produtos Decreína
+            Veja resultados reais do uso dos produtos Decreína.
           </p>
         </div>
         <div className="grid xl:grid-cols-3 md:grid-cols-2 gap-8">
           {beforeAfterImages.map((item, idx) => {
-            // Se só houver uma imagem, usa a mesma dos dois lados
             const beforeImg = item.before || item.after;
             const afterImg = item.after || item.before;
             return (
@@ -46,14 +45,17 @@ export default function BeforeAfterSection() {
                   <span className="text-white font-bold text-lg absolute top-3 right-4 drop-shadow pointer-events-none select-none">Depois</span>
                 </div>
                 <div className="flex flex-col justify-between h-full w-full">
-                  <p className="text-gray-700 text-center italic text-base mb-8 mt-4">“{item.description}”</p>
-                  <div className="w-full flex justify-center absolute bottom-4 left-0">
-                    <span className="bg-teal-50 text-teal-700 px-4 py-1 rounded-full font-bold text-sm shadow-sm border border-teal-200">{item.name}</span>
+                  <div className="mb-2 mt-4 text-center">
+                    <span className="block text-sm text-gray-500 font-semibold">Resultado do Tratamento:</span>
+                    <span className="block text-base text-gray-700">{item.resultado}</span>
                   </div>
                 </div>
               </div>
             );
           })}
+        </div>
+        <div className="w-full flex justify-center mt-10">
+          <span className="text-sm text-gray-500">Imagens cedidas pela podóloga <a href="https://www.instagram.com/manuelistummpodologa/" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline hover:text-teal-900">Manueli Stumm</a>.</span>
         </div>
       </div>
     </section>
