@@ -16,3 +16,4 @@ export const beforeAfterImages = [
     resultado: 'Micose (Unha da Mão)'
   }
 ];
+ 
