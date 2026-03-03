@@ -3,6 +3,7 @@ import { Check, PlusCircle, X } from 'lucide-react';
 import { Product } from '../data/products'; 
 import { useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import React from 'react';
 
 // A interface ProductCardProps permanece a mesma, mas a interface Product (no seu products.ts)
 // precisa ser atualizada para incluir 'details2?: string;'.
@@ -12,7 +13,7 @@ interface ProductCardProps {
   priority?: boolean;
 }
 
-export default function ProductCard({ product, priority = false }: ProductCardProps) {
+const ProductCard = ({ product, priority = false }: ProductCardProps) => {
     const [imgLoaded, setImgLoaded] = useState(false);
   const [open, setOpen] = useState(false);
   const touchTimeoutRef = useRef<number | null>(null);
@@ -140,4 +141,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         )}
     </div>
   );
-}
+};
+
+export default React.memo(ProductCard);

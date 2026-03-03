@@ -138,14 +138,18 @@ export default function ProductsCarousel() {
                 onTouchMove={handleDragMove}
                 onTouchEnd={handleDragEnd}
               >
-                {products.slice(desktopIndex, desktopIndex + desktopWindowSize).map((product, idx) => (
-                  <div 
-                    key={product.id} 
-                    className="flex-shrink-0 w-full xl:w-1/3 px-4" 
-                  >
-                    <ProductCard product={product} priority={idx === 0} />
-                  </div>
-                ))}
+                {Array.from({ length: desktopWindowSize }).map((_, i) => {
+                  const idx = (desktopIndex + i) % products.length;
+                  const product = products[idx];
+                  return (
+                    <div 
+                      key={product.id} 
+                      className="flex-shrink-0 w-full xl:w-1/3 px-4" 
+                    >
+                      <ProductCard product={product} priority={i === 0} />
+                    </div>
+                  );
+                })}
               </div>
             </div>
             {/* FIM DO CONTÊINER DE DESLIZAMENTO */}
@@ -201,7 +205,7 @@ export default function ProductsCarousel() {
                 onTouchEnd={handleDragEnd}
               >
                 <div className="flex-shrink-0 w-full px-4">
-                  <ProductCard product={products[mobileIndex]} priority={true} />
+                  <ProductCard product={products[mobileIndex % products.length]} priority={true} />
                 </div>
               </div>
             </div>

@@ -7,7 +7,7 @@ import { ReactCompareSlider, ReactCompareSliderImage } from 'react-compare-slide
 export default function BeforeAfterSection() {
 
   return (
-    <section id="antesedepois" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
+    <section id="depoimentos" className="py-20 bg-gradient-to-br from-gray-50 to-teal-50">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-12 animate-fadeInUp">
           <h2 className="text-4xl xl:text-5xl font-bold text-gray-900 mb-4">

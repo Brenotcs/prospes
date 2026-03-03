@@ -121,18 +121,6 @@ export default function Header() {
               </a>
 
               <nav className="hidden xl:flex items-center gap-8 mx-auto"> 
-                {/* PRODUTOS */}
-                <a 
-                  href="#produtos" 
-                  onClick={(e) => handleNavClick(e, 'produtos')}
-                  onMouseEnter={() => setHoveredLink('produtos')}
-                  onMouseLeave={() => setHoveredLink(null)}
-                  className="text-gray-200 hover:text-teal-400 transition relative"
-                >
-                  Mais Vendidos
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
-                </a>
-                
                 {/* BENEFÍCIOS */}
                 <a 
                   href="#beneficios" 
@@ -144,7 +132,6 @@ export default function Header() {
                   Benefícios
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'beneficios' || hoveredLink === 'beneficios' ? 'w-full' : 'w-0'}`} />
                 </a>
-                
                 {/* DEPOIMENTOS */}
                 <a 
                   href="#depoimentos" 
@@ -156,7 +143,17 @@ export default function Header() {
                   Depoimentos
                   <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'depoimentos' || hoveredLink === 'depoimentos' ? 'w-full' : 'w-0'}`} />
                 </a>
-
+                {/* MAIS VENDIDOS */}
+                <a 
+                  href="#produtos" 
+                  onClick={(e) => handleNavClick(e, 'produtos')}
+                  onMouseEnter={() => setHoveredLink('produtos')}
+                  onMouseLeave={() => setHoveredLink(null)}
+                  className="text-gray-200 hover:text-teal-400 transition relative"
+                >
+                  Mais Vendidos
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-teal-400 transition-all duration-300 ${activeSection === 'produtos' || hoveredLink === 'produtos' ? 'w-full' : 'w-0'}`} />
+                </a>
                 {/* CATÁLOGO */}
                 <a 
                   href="#catalogo" 
@@ -200,13 +197,6 @@ export default function Header() {
             >
               <nav className="flex flex-col py-4 px-4 space-y-4">
                 <a 
-                  href="#produtos" 
-                  onClick={(e) => handleNavClick(e, 'produtos')}
-                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
-                >
-                  Produtos
-                </a>
-                <a 
                   href="#beneficios" 
                   onClick={(e) => handleNavClick(e, 'beneficios')}
                   className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
@@ -219,6 +209,13 @@ export default function Header() {
                   className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
                 >
                   Depoimentos
+                </a>
+                <a 
+                  href="#produtos" 
+                  onClick={(e) => handleNavClick(e, 'produtos')}
+                  className="text-gray-200 hover:text-teal-400 transition py-2 border-b border-white/10 transform transition-transform duration-200 hover:translate-x-2"
+                >
+                  Mais Vendidos
                 </a>
                 <a 
                   href="#catalogo" 
