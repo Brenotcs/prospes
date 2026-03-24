@@ -177,6 +177,11 @@ export default function Contato() {
 
       setStatus('success');
       
+      // Manda o usuário para o WhatsApp do atendimento
+      const mensagem = `Olá, meu nome é ${form.nome.trim()} e acabei de preencher o formulário no site. Gostaria de falar com um vendedor!`;
+      const urlWhatsapp = `https://wa.me/557194180078?text=${encodeURIComponent(mensagem)}`;
+      window.open(urlWhatsapp, '_blank');
+      
       // Resetar formulário
       setForm({
         tipoUsuario: '',
