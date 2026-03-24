@@ -13,6 +13,7 @@ import FAQ from './components/FAQ';
 import CTA from './components/CTA';
 import Contato from './components/Contato';
 import Footer from './components/Footer';
+import PopupAviso from './components/PopupAviso';
 
 function App() {
   // Desabilita clique direito em imagens
@@ -64,6 +65,7 @@ function App() {
       {/* Contato e Footer */}
       <Contato />
       <Footer />
+      <PopupAviso />
     </div>
   );
 }
