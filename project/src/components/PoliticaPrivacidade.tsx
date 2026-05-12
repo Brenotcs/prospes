@@ -1,8 +1,15 @@
 import React from "react";
+import { Helmet } from 'react-helmet-async';
 import Logo from "../assets/logo.png";
 
 const PoliticaPrivacidade: React.FC = () => (
   <div className="min-h-screen bg-white">
+    <Helmet>
+      <title>Política de Privacidade | Prospés</title>
+      <meta name="description" content="Leia nossa Política de Privacidade. Saiba como a LCA Laboratório e a Prospés coletam, utilizam e protegem suas informações pessoais em conformidade com a LGPD." />
+      <link rel="canonical" href="https://www.prospes.com.br/politica-privacidade" />
+      <meta name="robots" content="noindex, follow" />
+    </Helmet>
     <header className="w-full border-b border-gray-200 bg-white py-6 mb-10">
       <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-2 sm:gap-4 px-4 text-center sm:text-left">
         <img src={Logo} alt="Logo Prospés" className="h-12 w-auto mb-2 sm:mb-0" />
